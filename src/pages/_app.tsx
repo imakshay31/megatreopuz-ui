@@ -1,8 +1,11 @@
+import Router from "next/router";
 import React from "react";
 import { AppProps } from "next/app";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { CssBaseline, ThemeProvider, Fade } from "@material-ui/core";
 import Head from "next/head";
 import theme from "../components/theme";
+import { SnackbarProvider } from "notistack";
+import LoadingScreen from "../components/loadingScreen";
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     React.useEffect(() => {
         // Remove the server-side injected CSS.
@@ -13,7 +16,11 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     }, []);
 
     const [currentTheme] = React.useState(theme);
+    const [loading, setLoading] = React.useState(false);
 
+    Router.events.on("routeChangeStart", () => setLoading(true));
+    Router.events.on("routeChangeComplete", () => setLoading(false));
+    Router.events.on("routeChangeError", () => setLoading(false));
     return (
         <>
             <Head>
@@ -32,7 +39,12 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
             </Head>
             <CssBaseline />
             <ThemeProvider theme={currentTheme}>
-                <Component {...pageProps} />
+                <Fade in={loading}>
+                    <LoadingScreen />
+                </Fade>
+                <SnackbarProvider>
+                    <Component loading={loading} {...pageProps} />
+                </SnackbarProvider>
             </ThemeProvider>
         </>
     );

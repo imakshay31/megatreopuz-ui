@@ -15,6 +15,13 @@ import {
     Fade,
 } from "@material-ui/core";
 import LoginForm from "../components/Login/form";
+import { initialValues as formValues } from "../components/Login/formValues";
+import useNotification, {
+    NotificationHook,
+} from "../components/useNotification";
+import { useRouter } from "next/dist/client/router";
+import { CommonPageProps } from "../components/types";
+import { processWithLoading } from "../components/utilts";
 
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
@@ -51,16 +58,48 @@ const useStyles = makeStyles((theme: Theme) => ({
         paddingBottom: theme.spacing(2),
     },
 }));
-const Page: NextPage = () => {
+
+interface LoginResponse {
+    error: string | null;
+}
+
+async function submitLogin(
+    data: typeof formValues,
+    notify: NotificationHook["show"],
+    navigate: () => void
+): Promise<void> {
+    try {
+        const res: LoginResponse = await (
+            await fetch(`${process.env.NEXT_PUBLIC_LOGIN_URL}`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+        ).json();
+
+        if (res.error) throw new Error(res.error);
+        navigate();
+    } catch (e) {
+        notify(e instanceof Error ? e.message : e, {
+            variant: "error",
+        });
+    }
+}
+
+const Page: NextPage<CommonPageProps> = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [loading, setLoading] = useState(false);
     const [showLoader, setLoader] = useState(false);
-
+    const router = useRouter();
+    const { show } = useNotification();
     useEffect(() => {
         if (loading !== showLoader) setTimeout(() => setLoader(true), 1000);
         if (!loading && showLoader) setLoader(false);
-    });
+    }, [loading, showLoader]);
 
     return (
         <section className={classes.section}>
@@ -89,9 +128,14 @@ const Page: NextPage = () => {
                     }></CardHeader>
                 <CardContent>
                     <LoginForm
-                        onSubmit={() => {
-                            setLoading(true);
-                        }}
+                        onSubmit={(values) =>
+                            processWithLoading(
+                                submitLogin(values, show, () =>
+                                    router.push("/dashboard")
+                                ),
+                                setLoading
+                            )
+                        }
                     />
                 </CardContent>
                 <CardActions classes={{ root: classes.action }}>
