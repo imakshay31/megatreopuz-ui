@@ -1,0 +1,24 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type Empty {
+  sucessful: Boolean!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+type Mutation {
+  login(credentials: LoginInput!): Empty!
+  logout: Empty!
+}
+
+type Query {
+  dummyQuery: String!
+}
+

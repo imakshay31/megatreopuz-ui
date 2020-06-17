@@ -20,9 +20,8 @@ export default function useNotification(): NotificationHook {
         show: (message: SnackbarMessage, options?: OptionsObject) => {
             key.current = enqueueSnackbar(message, {
                 variant: "info",
-                autoHideDuration: 5000,
+                persist: true,
                 anchorOrigin: { horizontal: "center", vertical: "bottom" },
-                ...options,
                 action: (key) => (
                     <IconButton onClick={() => closeSnackbar(key)}>
                         {/* Hardcoded color */}
@@ -32,6 +31,7 @@ export default function useNotification(): NotificationHook {
                         />
                     </IconButton>
                 ),
+                ...options,
             });
         },
         hide: () => closeSnackbar(key.current),

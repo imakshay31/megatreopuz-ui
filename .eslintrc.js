@@ -9,6 +9,7 @@ module.exports = {
         "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:react-hooks/recommended",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -18,10 +19,11 @@ module.exports = {
         ecmaVersion: 11,
         sourceType: "module",
     },
-    plugins: ["react", "@typescript-eslint"],
+    plugins: ["react", "relay", "@typescript-eslint"],
     rules: {
         "react/display-name": 0,
         "react/prop-types": 0,
+        "@typescript-eslint/no-explicit-any": 0,
     },
     ignorePatterns: ["*.js", "*.d.ts"],
 };

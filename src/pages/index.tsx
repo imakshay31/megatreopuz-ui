@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { graphql, useMutation } from "react-relay/hooks";
 import { NextPage } from "next";
 import {
     makeStyles,
@@ -15,13 +16,10 @@ import {
     Fade,
 } from "@material-ui/core";
 import LoginForm from "../components/Login/form";
-import { initialValues as formValues } from "../components/Login/formValues";
-import useNotification, {
-    NotificationHook,
-} from "../components/useNotification";
+import useNotification from "../components/useNotification";
 import { useRouter } from "next/dist/client/router";
 import { CommonPageProps } from "../components/types";
-import { processWithLoading } from "../components/utilts";
+import { pagesLoginMutation } from "../__generated__/pagesLoginMutation.graphql";
 
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
@@ -59,52 +57,34 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-interface LoginResponse {
-    error: string | null;
-}
-
-async function submitLogin(
-    data: typeof formValues,
-    notify: NotificationHook["show"],
-    navigate: () => void
-): Promise<void> {
-    try {
-        const res: LoginResponse = await (
-            await fetch(`${process.env.NEXT_PUBLIC_LOGIN_URL}`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(data),
-            })
-        ).json();
-
-        if (res.error) throw new Error(res.error);
-        navigate();
-    } catch (e) {
-        notify(e instanceof Error ? e.message : e, {
-            variant: "error",
-        });
+const mutation = graphql`
+    mutation pagesLoginMutation($credentials: LoginInput!) {
+        login(credentials: $credentials) {
+            sucessful
+        }
     }
-}
+`;
 
 const Page: NextPage<CommonPageProps> = () => {
     const classes = useStyles();
     const theme = useTheme();
-    const [loading, setLoading] = useState(false);
     const [showLoader, setLoader] = useState(false);
     const router = useRouter();
     const { show } = useNotification();
+
+    const [commit, loading] = useMutation<pagesLoginMutation>(mutation);
+
     useEffect(() => {
-        if (loading !== showLoader) setTimeout(() => setLoader(true), 1000);
-        if (!loading && showLoader) setLoader(false);
+        if (loading && !showLoader) {
+            const handle = setTimeout(() => setLoader(true), 1000);
+            return () => clearTimeout(handle);
+        }
     }, [loading, showLoader]);
 
     return (
         <section className={classes.section}>
             <Card className={classes.card}>
-                <Fade in={showLoader}>
+                <Fade in={loading && showLoader}>
                     <LinearProgress color="secondary" />
                 </Fade>
                 <CardHeader
@@ -128,14 +108,28 @@ const Page: NextPage<CommonPageProps> = () => {
                     }></CardHeader>
                 <CardContent>
                     <LoginForm
-                        onSubmit={(values) =>
-                            processWithLoading(
-                                submitLogin(values, show, () =>
-                                    router.push("/dashboard")
-                                ),
-                                setLoading
-                            )
-                        }
+                        onSubmit={(values) => {
+                            commit({
+                                onCompleted: () => {
+                                    router.push("/dashboard");
+                                },
+                                onError: (err: any) => {
+                                    show(
+                                        err.source?.errors[0]?.message ??
+                                            "Unknown error",
+                                        {
+                                            variant: "error",
+                                        }
+                                    );
+                                },
+                                variables: {
+                                    credentials: {
+                                        password: values.password,
+                                        username: values.username,
+                                    },
+                                },
+                            });
+                        }}
                     />
                 </CardContent>
                 <CardActions classes={{ root: classes.action }}>

@@ -6,6 +6,9 @@ import Head from "next/head";
 import theme from "../components/theme";
 import { SnackbarProvider } from "notistack";
 import LoadingScreen from "../components/loadingScreen";
+import { RelayEnvironmentProvider } from "react-relay/hooks";
+import environment from "../relay/environment";
+
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     React.useEffect(() => {
         // Remove the server-side injected CSS.
@@ -38,14 +41,16 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
                 />
             </Head>
             <CssBaseline />
-            <ThemeProvider theme={currentTheme}>
-                <Fade in={loading}>
-                    <LoadingScreen />
-                </Fade>
-                <SnackbarProvider>
-                    <Component loading={loading} {...pageProps} />
-                </SnackbarProvider>
-            </ThemeProvider>
+            <RelayEnvironmentProvider environment={environment}>
+                <ThemeProvider theme={currentTheme}>
+                    <Fade in={loading}>
+                        <LoadingScreen />
+                    </Fade>
+                    <SnackbarProvider hideIconVariant>
+                        <Component loading={loading} {...pageProps} />
+                    </SnackbarProvider>
+                </ThemeProvider>
+            </RelayEnvironmentProvider>
         </>
     );
 };
