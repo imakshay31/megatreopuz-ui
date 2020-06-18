@@ -1,10 +1,11 @@
-import {object, string} from "yup";
+import { object, string } from "yup";
 export const initialValues = {
     username: "",
-    password: ""
-}
+    password: "",
+    rememberMe: true,
+};
 
 export const schema = object().shape({
     username: string().required(`Username cannot be empty`),
-    password: string().required(`Password cannot be empty`)
-})
+    password: string().required(`Password cannot be empty`),
+});

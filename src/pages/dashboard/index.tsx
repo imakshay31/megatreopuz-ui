@@ -1,8 +1,7 @@
 import { NextPage } from "next";
 import React from "react";
 import { Button, CircularProgress } from "@material-ui/core";
-import { CommonPageProps } from "../../components/types";
-import useNotification from "../../components/useNotification";
+import useNotification from "../../components/Hooks/useNotification";
 import { useRouter } from "next/router";
 import { graphql } from "relay-runtime";
 import { dashboardLogoutMutation } from "../../__generated__/dashboardLogoutMutation.graphql";
@@ -16,7 +15,7 @@ const mutation = graphql`
     }
 `;
 
-const Dashboard: NextPage<CommonPageProps> = () => {
+const Dashboard: NextPage = () => {
     const router = useRouter();
     const { show } = useNotification();
     const [commit, loading] = useMutation<dashboardLogoutMutation>(mutation);

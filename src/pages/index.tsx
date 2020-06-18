@@ -12,14 +12,15 @@ import {
     useTheme,
     CardContent,
     CardActions,
-    LinearProgress,
-    Fade,
+    Container,
+    CircularProgress,
 } from "@material-ui/core";
 import LoginForm from "../components/Login/form";
-import useNotification from "../components/useNotification";
+import useNotification from "../components/Hooks/useNotification";
 import { useRouter } from "next/dist/client/router";
-import { CommonPageProps } from "../components/types";
 import { pagesLoginMutation } from "../__generated__/pagesLoginMutation.graphql";
+import { formatGraphQLError } from "../components/utils";
+import useAppContext from "../components/Hooks/useAppContext";
 
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
@@ -39,11 +40,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         height: 80,
         width: 80,
     },
-    card: {
-        minWidth: 500,
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
-    },
     figure: {
         display: "flex",
         alignItems: "center",
@@ -58,21 +54,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const mutation = graphql`
-    mutation pagesLoginMutation($credentials: LoginInput!) {
-        login(credentials: $credentials) {
+    mutation pagesLoginMutation($credentials: LoginInput!, $remember: Boolean) {
+        login(credentials: $credentials, remember: $remember) {
             sucessful
         }
     }
 `;
 
-const Page: NextPage<CommonPageProps> = () => {
+const Page: NextPage = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [showLoader, setLoader] = useState(false);
     const router = useRouter();
     const { show } = useNotification();
-
+    const { pageLoading } = useAppContext();
     const [commit, loading] = useMutation<pagesLoginMutation>(mutation);
+    const buttonLoading = loading || pageLoading;
 
     useEffect(() => {
         if (loading && !showLoader) {
@@ -83,65 +80,64 @@ const Page: NextPage<CommonPageProps> = () => {
 
     return (
         <section className={classes.section}>
-            <Card className={classes.card}>
-                <Fade in={loading && showLoader}>
-                    <LinearProgress color="secondary" />
-                </Fade>
-                <CardHeader
-                    disableTypography
-                    title={
-                        <figure className={classes.figure}>
-                            <Avatar
-                                src={
-                                    theme.palette.type === "dark"
-                                        ? "/logoDark.png"
-                                        : "/logo.jpg"
-                                }
-                                className={classes.logo}
-                            />
-                        </figure>
-                    }
-                    subheader={
-                        <Typography align="center" variant="subtitle2">
-                            Megatreopuz - Annual online cryptic hunt
-                        </Typography>
-                    }></CardHeader>
-                <CardContent>
-                    <LoginForm
-                        onSubmit={(values) => {
-                            commit({
-                                onCompleted: () => {
-                                    router.push("/dashboard");
-                                },
-                                onError: (err: any) => {
-                                    show(
-                                        err.source?.errors[0]?.message ??
-                                            "Unknown error",
-                                        {
+            <Container maxWidth="sm">
+                <Card>
+                    <CardHeader
+                        disableTypography
+                        title={
+                            <figure className={classes.figure}>
+                                <Avatar
+                                    src={
+                                        theme.palette.type === "dark"
+                                            ? "/logoDark.png"
+                                            : "/logo.jpg"
+                                    }
+                                    className={classes.logo}
+                                />
+                            </figure>
+                        }
+                        subheader={
+                            <Typography align="center" variant="subtitle2">
+                                Megatreopuz - Annual online cryptic hunt
+                            </Typography>
+                        }></CardHeader>
+                    <CardContent>
+                        <LoginForm
+                            onSubmit={(values) => {
+                                commit({
+                                    onCompleted: () =>
+                                        router.push("/dashboard"),
+                                    onError: (err: any) => {
+                                        show(formatGraphQLError(err), {
                                             variant: "error",
-                                        }
-                                    );
-                                },
-                                variables: {
-                                    credentials: {
-                                        password: values.password,
-                                        username: values.username,
+                                        });
                                     },
-                                },
-                            });
-                        }}
-                    />
-                </CardContent>
-                <CardActions classes={{ root: classes.action }}>
-                    <Button
-                        disabled={loading}
-                        form="login-form"
-                        type="submit"
-                        variant="text">
-                        Sign In
-                    </Button>
-                </CardActions>
-            </Card>
+                                    variables: {
+                                        remember: values.rememberMe,
+                                        credentials: {
+                                            password: values.password,
+                                            username: values.username,
+                                        },
+                                    },
+                                });
+                            }}
+                        />
+                    </CardContent>
+                    <CardActions classes={{ root: classes.action }}>
+                        <Button
+                            disabled={buttonLoading}
+                            form="login-form"
+                            type="submit"
+                            variant="text">
+                            {loading ? (
+                                <CircularProgress size={24} />
+                            ) : (
+                                `Sign In`
+                            )}
+                        </Button>
+                    </CardActions>
+                </Card>
+            </Container>
         </section>
     );
 };

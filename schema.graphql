@@ -14,7 +14,7 @@ input LoginInput {
 }
 
 type Mutation {
-  login(credentials: LoginInput!): Empty!
+  login(remember: Boolean = false, credentials: LoginInput!): Empty!
   logout: Empty!
 }
 

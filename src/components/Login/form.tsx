@@ -10,7 +10,9 @@ import {
     InputLabel,
     OutlinedInput,
     FormHelperText,
-    Grid,
+    FormControlLabel,
+    Checkbox,
+    Typography,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -47,6 +49,31 @@ const Username: React.FC = () => {
     );
 };
 
+const RememberCheckBox: React.FC = () => {
+    return (
+        <Field name="rememberMe">
+            {({ field }: FieldProps<typeof initialValues["rememberMe"]>) => (
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            size="small"
+                            color="primary"
+                            checked={field.value}
+                            onChange={field.onChange}
+                            name={field.name}
+                        />
+                    }
+                    label={
+                        <Typography variant="body2" color="textSecondary">
+                            Keep me logged in
+                        </Typography>
+                    }
+                />
+            )}
+        </Field>
+    );
+};
+
 const Password: React.FC = () => {
     const [shrink, setShrink] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -62,7 +89,7 @@ const Password: React.FC = () => {
                 const error = meta.touched && meta.error ? meta.error : " ";
                 const hasError = !!(meta.touched && meta.error);
                 return (
-                    <FormControl fullWidth variant="outlined">
+                    <FormControl margin="dense" fullWidth variant="outlined">
                         <InputLabel
                             error={hasError}
                             shrink={shrink}
@@ -127,14 +154,9 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             initialValues={initialValues}
             validationSchema={schema}>
             <Form id="login-form">
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <Username />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Password />
-                    </Grid>
-                </Grid>
+                <Username />
+                <Password />
+                <RememberCheckBox />
             </Form>
         </Formik>
     );
