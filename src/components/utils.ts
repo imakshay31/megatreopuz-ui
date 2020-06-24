@@ -1,8 +1,14 @@
 import { SuspenseConfig } from "react";
 
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function formatGraphQLError(err: any): string {
-    return err.source?.errors[0]?.message ?? "Unknown error";
+export function formatGraphQLError(err: Error): string {
+    const strArr = err.message.split("\n");
+    if (strArr.length < 3) return "Unknown error";
+
+    // First error
+    const [, errMsg] = strArr[2].split(". ");
+    if (!errMsg) return "Unknown error";
+
+    return errMsg;
 }
 
 export const suspenseConfig: SuspenseConfig = {

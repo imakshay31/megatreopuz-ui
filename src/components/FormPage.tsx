@@ -1,6 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
-import { graphql } from "react-relay";
-import { NextPage } from "next";
+import React from "react";
 import {
     makeStyles,
     Button,
@@ -15,13 +13,7 @@ import {
     Container,
     CircularProgress,
 } from "@material-ui/core";
-import LoginForm from "../components/Login/form";
-import useNotification from "../components/Hooks/useNotification";
-import { useRouter } from "next/dist/client/router";
-import { pagesLoginMutation } from "../__generated__/pagesLoginMutation.graphql";
-import { formatGraphQLError } from "../components/utils";
-import useAppContext from "../components/Hooks/useAppContext";
-
+import { useAppContext } from "../components/Hooks/useAppContext";
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
         minHeight: "100vh",
@@ -53,30 +45,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const mutation = graphql`
-    mutation pagesLoginMutation($credentials: LoginInput!, $remember: Boolean) {
-        login(credentials: $credentials, remember: $remember) {
-            sucessful
-        }
-    }
-`;
+interface Props {
+    title: React.ReactNode;
+    submitLabel: React.ReactNode;
+    loading?: boolean;
+    formID: string;
+}
 
-const Page: NextPage = () => {
+const FormPage: React.FC<Props> = ({
+    submitLabel,
+    loading,
+    title,
+    formID,
+    children,
+}) => {
     const classes = useStyles();
     const theme = useTheme();
-    const [showLoader, setLoader] = useState(false);
-    const router = useRouter();
-    const { show } = useNotification();
-    const { pageLoading } = useAppContext();
-    // const [commit, loading] = useMutation<pagesLoginMutation>(mutation);
-    // const buttonLoading = loading || pageLoading;
-
-    // useEffect(() => {
-    //     if (loading && !showLoader) {
-    //         const handle = setTimeout(() => setLoader(true), 1000);
-    //         return () => clearTimeout(handle);
-    //     }
-    // }, [loading, showLoader]);
+    const { blockingLoading, routeLoading } = useAppContext();
+    const buttonDisabled = loading || blockingLoading || routeLoading;
 
     return (
         <>
@@ -99,42 +85,21 @@ const Page: NextPage = () => {
                             }
                             subheader={
                                 <Typography align="center" variant="subtitle2">
-                                    Megatreopuz - Annual online cryptic hunt
+                                    {title}
                                 </Typography>
                             }></CardHeader>
-                        <CardContent>
-                            <LoginForm
-                                onSubmit={(values) => {
-                                    // commit({
-                                    //     onCompleted: () =>
-                                    //         router.push("/dashboard"),
-                                    //     onError: (err: any) => {
-                                    //         show(formatGraphQLError(err), {
-                                    //             variant: "error",
-                                    //         });
-                                    //     },
-                                    //     variables: {
-                                    //         remember: values.rememberMe,
-                                    //         credentials: {
-                                    //             password: values.password,
-                                    //             username: values.username,
-                                    //         },
-                                    //     },
-                                    // });
-                                }}
-                            />
-                        </CardContent>
+                        <CardContent>{children}</CardContent>
                         <CardActions classes={{ root: classes.action }}>
                             <Button
-                                // disabled={buttonLoading}
-                                form="login-form"
+                                disabled={buttonDisabled}
+                                form={formID}
                                 type="submit"
                                 variant="text">
-                                {/* {loading ? (
+                                {loading ? (
                                     <CircularProgress size={24} />
                                 ) : (
-                                    `Sign In`
-                                )} */}
+                                    submitLabel
+                                )}
                             </Button>
                         </CardActions>
                     </Card>
@@ -144,4 +109,4 @@ const Page: NextPage = () => {
     );
 };
 
-export default Page;
+export default FormPage;

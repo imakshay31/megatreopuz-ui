@@ -4,8 +4,13 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+type BasicBoolean {
+  id: String!
+  value: Boolean!
+}
+
 type Empty {
-  sucessful: Boolean!
+  id: String!
 }
 
 input LoginInput {
@@ -14,11 +19,12 @@ input LoginInput {
 }
 
 type Mutation {
-  login(remember: Boolean = false, credentials: LoginInput!): Empty!
+  login(credentials: LoginInput!): Empty!
   logout: Empty!
+  requestPasswordReset(email: String!): Empty!
 }
 
 type Query {
-  dummyQuery: String!
+  isUserLoggedIn: BasicBoolean!
 }
 

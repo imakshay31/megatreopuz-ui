@@ -6,6 +6,13 @@ const theme = createMuiTheme({
         primary: {
             main: blue[500],
         },
+        type: "dark",
+    },
+    props: {
+        MuiTextField: {
+            variant: "outlined",
+            margin: "dense",
+        },
     },
 });
 

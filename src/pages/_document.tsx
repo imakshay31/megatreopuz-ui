@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, ComponentType } from "react";
 import Document, {
     DocumentContext,
     DocumentInitialProps,
@@ -9,12 +9,11 @@ import Document, {
 } from "next/document";
 import { AppType } from "next/dist/next-server/lib/utils";
 import { ServerStyleSheets } from "@material-ui/core";
-import ReactDOMServer from "react-dom/server";
 import getInitialEnvironment from "../components/relay/initialEnvironment";
 import { RelayEnvironmentProvider } from "relay-hooks";
 import cookie from "cookie";
 import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
-
+import AppWrapper from "../components/App/AppWrapper";
 interface ExtraProps {
     records: RecordMap;
 }
@@ -23,7 +22,10 @@ class MyDocument extends Document<ExtraProps> {
     static async getInitialProps(
         ctx: DocumentContext
     ): Promise<DocumentInitialProps & ExtraProps> {
-        const parsedCookie = cookie.parse(ctx.req.headers.cookie);
+        const originalRenderPage = ctx.renderPage;
+
+        // Relay cookies between backend and client using headers
+        const parsedCookie = cookie.parse(ctx.req.headers.cookie ?? "");
         const headers: Record<string, string> = {};
 
         "accessToken" in parsedCookie &&
@@ -31,26 +33,32 @@ class MyDocument extends Document<ExtraProps> {
         "refreshToken" in parsedCookie &&
             (headers.refreshToken = parsedCookie.refreshToken);
 
-        const originalRenderPage = ctx.renderPage;
-        const serverEnv = getInitialEnvironment(headers);
+        const clientHeaders = {};
+        const serverEnv = getInitialEnvironment(headers, clientHeaders);
         ctx.renderPage = () =>
             originalRenderPage({
-                enhanceApp: () => (props) => {
+                enhanceComponent: (Component: ComponentType) => (props) => {
                     // Prepare the relay store
-                    ReactDOMServer.renderToString(
+                    return (
                         <RelayEnvironmentProvider
                             environment={serverEnv.environment}>
-                            <props.Component {...props.pageProps} />
+                            <AppWrapper>
+                                <Component {...props} />
+                            </AppWrapper>
                         </RelayEnvironmentProvider>
                     );
-
-                    return null;
                 },
             });
 
         // Run the parent `getInitialProps`, it now includes the custom `renderPage`
         await Document.getInitialProps(ctx);
         await serverEnv.relayServerSSR.getCache();
+        const records: RecordMap = serverEnv.environment
+            .getStore()
+            .getSource()
+            .toJSON();
+        for (const header in clientHeaders)
+            ctx.res?.setHeader(header, clientHeaders[header]);
 
         const sheets = new ServerStyleSheets();
         ctx.renderPage = () =>
@@ -61,10 +69,7 @@ class MyDocument extends Document<ExtraProps> {
                         <App
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             // @ts-ignore
-                            records={serverEnv.environment
-                                .getStore()
-                                .getSource()
-                                .toJSON()}
+                            records={records}
                             {...props}
                         />
                     );
@@ -78,7 +83,7 @@ class MyDocument extends Document<ExtraProps> {
                 ...React.Children.toArray(initialProps.styles),
                 sheets.getStyleElement(),
             ],
-            records: serverEnv.environment.getStore().getSource().toJSON(),
+            records,
         };
     }
 
@@ -88,7 +93,9 @@ class MyDocument extends Document<ExtraProps> {
                 <Head />
                 <body>
                     <template id="relay-data">
-                        {JSON.stringify(this.props.records)}
+                        {Buffer.from(
+                            JSON.stringify(this.props.records)
+                        ).toString("base64")}
                     </template>
                     <Main />
                     <NextScript />

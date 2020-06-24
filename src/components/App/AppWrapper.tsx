@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React from "react";
 import theme from "../theme";
 import { Router } from "next/router";
 import HeadTags from "./head";
@@ -11,8 +11,8 @@ import {
 } from "@material-ui/core";
 import LoadingBar from "../loadingBar";
 import { SnackbarProvider } from "notistack";
-import { AppContextProvider } from "./appContext";
-import LoadingScreen from "../loadingScreen";
+import { LoadingScreenContextProvider } from "../Hooks/useBlurMain";
+import { AppContextProvider } from "../Hooks/useAppContext";
 
 const useStyles = makeStyles(() => ({
     blurredMain: {
@@ -32,9 +32,11 @@ const AppWrapper: React.FC = ({ children }) => {
     const classes = useStyles();
     const [currentTheme] = React.useState(theme);
     const [loading, setLoading] = React.useState(false);
-    const [blockingLoading] = React.useState(false);
+    const [blockingLoading, setBlockingLoading] = React.useState(false);
 
-    Router.events.on("routeChangeStart", () => setLoading(true));
+    Router.events.on("routeChangeStart", () => {
+        setLoading(true);
+    });
     Router.events.on("routeChangeComplete", () => setLoading(false));
     Router.events.on("routeChangeError", () => setLoading(false));
 
@@ -47,13 +49,19 @@ const AppWrapper: React.FC = ({ children }) => {
                     <LoadingBar />
                 </Fade>
                 <SnackbarProvider hideIconVariant>
-                    <AppContextProvider value={{ pageLoading: loading }}>
-                        <main
-                            className={clsx(
-                                blockingLoading && classes.blurredMain
-                            )}>
-                            {children}
-                        </main>
+                    <AppContextProvider value={{
+                        blockingLoading,
+                        routeLoading: loading
+                    }}>
+                        <LoadingScreenContextProvider
+                            value={setBlockingLoading}>
+                            <main
+                                className={clsx(
+                                    blockingLoading && classes.blurredMain
+                                )}>
+                                {children}
+                            </main>
+                        </LoadingScreenContextProvider>
                     </AppContextProvider>
                 </SnackbarProvider>
             </ThemeProvider>

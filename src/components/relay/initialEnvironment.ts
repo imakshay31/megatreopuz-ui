@@ -8,7 +8,8 @@ export interface InitialEnvironment {
 }
 
 const getInitialEnvironment = (
-    headers: Record<string, string>
+    headers: Record<string, string>,
+    clientHeaders: Record<string, string>
 ): InitialEnvironment => {
     const relayServerSSR = new RelayServerSSR();
     const source = new RecordSource();
@@ -20,6 +21,17 @@ const getInitialEnvironment = (
             url: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
             headers: headers,
         }),
+        (next) => async (req) => {
+            const res = await next(req);
+            const headers =
+                res.headers &&
+                res.headers[
+                    Object.getOwnPropertySymbols(res.headers)[0] as any
+                ];
+            if (headers?.["set-cookie"])
+                clientHeaders["set-cookie"] = headers["set-cookie"];
+            return res;
+        },
     ]);
 
     const environment = new Environment({ network, store });
