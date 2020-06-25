@@ -4,13 +4,13 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
-type BasicBoolean {
-  id: String!
+type BasicBoolean implements Node {
+  id: ID!
   value: Boolean!
 }
 
-type Empty {
-  id: String!
+type Empty implements Node {
+  id: ID!
 }
 
 input LoginInput {
@@ -23,6 +23,10 @@ type Mutation {
   logout: Empty!
   requestPasswordReset(email: String!): Empty!
   updatePassword(newPassword: String!, code: String!): Empty!
+}
+
+interface Node {
+  id: ID!
 }
 
 type Query {
