@@ -3,17 +3,13 @@ import React from "react";
 import theme from "../theme";
 import { Router } from "next/router";
 import HeadTags from "./head";
-import {
-    CssBaseline,
-    ThemeProvider,
-    Fade,
-    makeStyles,
-} from "@material-ui/core";
+import { CssBaseline, Fade } from "@material-ui/core";
+import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
 import LoadingBar from "../loadingBar";
 import { SnackbarProvider } from "notistack";
-import { LoadingScreenContextProvider } from "../Hooks/useBlurMain";
+import { BlurMainProvider } from "../Hooks/useBlurMain";
 import { AppContextProvider } from "../Hooks/useAppContext";
-
+import "../Firebase";
 const useStyles = makeStyles(() => ({
     blurredMain: {
         filter: "blur(2px)",
@@ -32,7 +28,7 @@ const AppWrapper: React.FC = ({ children }) => {
     const classes = useStyles();
     const [currentTheme] = React.useState(theme);
     const [loading, setLoading] = React.useState(false);
-    const [blockingLoading, setBlockingLoading] = React.useState(false);
+    const [blockingPopup, setBlockingPopup] = React.useState(false);
 
     Router.events.on("routeChangeStart", () => {
         setLoading(true);
@@ -49,19 +45,19 @@ const AppWrapper: React.FC = ({ children }) => {
                     <LoadingBar />
                 </Fade>
                 <SnackbarProvider hideIconVariant>
-                    <AppContextProvider value={{
-                        blockingLoading,
-                        routeLoading: loading
-                    }}>
-                        <LoadingScreenContextProvider
-                            value={setBlockingLoading}>
+                    <AppContextProvider
+                        value={{
+                            blockingPopup,
+                            routeLoading: loading,
+                        }}>
+                        <BlurMainProvider value={setBlockingPopup}>
                             <main
                                 className={clsx(
-                                    blockingLoading && classes.blurredMain
+                                    blockingPopup && classes.blurredMain
                                 )}>
                                 {children}
                             </main>
-                        </LoadingScreenContextProvider>
+                        </BlurMainProvider>
                     </AppContextProvider>
                 </SnackbarProvider>
             </ThemeProvider>

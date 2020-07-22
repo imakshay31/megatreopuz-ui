@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
-import { makeStyles, Theme, CircularProgress, fade } from "@material-ui/core";
+import {
+    makeStyles,
+    Theme,
+    CircularProgress,
+    fade,
+    NoSsr,
+} from "@material-ui/core";
 import { useBlurMain } from "./Hooks/useBlurMain";
-
 const useStyles = makeStyles((theme: Theme) => ({
     loadingSection: {
         position: "fixed",
@@ -26,10 +31,11 @@ const LoadingScreen: React.FC = () => {
         return () => toggleBlur(false);
     }, [toggleBlur]);
 
+    // TODO: SSR with portals
     return (
-        <section className={classes.loadingSection}>
+        <article className={classes.loadingSection}>
             <CircularProgress size="5rem" color="secondary" />
-        </section>
+        </article>
     );
 };
 

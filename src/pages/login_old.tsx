@@ -40,6 +40,7 @@ const LoginPage: NextPage = () => {
 
     return (
         <>
+            <LoadingScreen />
             {!props && !error && <LoadingScreen />}
             {error && <CheckLoginError error={error} />}
             <FormPage

@@ -46,7 +46,7 @@ const ForgotPasswordDialog: React.FC<Props> = ({ handleClose, ...props }) => {
     );
 
     const { show } = useNotification();
-    const { blockingLoading, routeLoading } = useAppContext();
+    const { blockingPopup, routeLoading } = useAppContext();
 
     return (
         <Dialog {...props} onClose={handleClose}>
@@ -101,7 +101,7 @@ const ForgotPasswordDialog: React.FC<Props> = ({ handleClose, ...props }) => {
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button
-                    disabled={loading || blockingLoading || routeLoading}
+                    disabled={loading || blockingPopup || routeLoading}
                     form="forgot-password-form"
                     type="submit"
                     variant="contained"

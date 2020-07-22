@@ -6,7 +6,7 @@ const initialContext = (blurMain: boolean) => {
 };
 const loadingContext = React.createContext(initialContext);
 
-export const LoadingScreenContextProvider = loadingContext.Provider;
+export const BlurMainProvider = loadingContext.Provider;
 export function useBlurMain(): typeof initialContext {
     return useContext(loadingContext);
 }

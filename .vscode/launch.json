@@ -7,6 +7,24 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Debug tests",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "cwd": "${workspaceFolder}",
+            "args": ["--no-cache", "--runInBand", "${file}"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Update and Debug tests",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "cwd": "${workspaceFolder}",
+            "args": ["--no-cache", "--runInBand", "${file}", "-u"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Node: Launch",
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/next",
             "env": {
@@ -19,13 +37,6 @@
             "request": "attach",
             "name": "Node: Attach",
             "port": 9229
-        },
-        {
-            "name": "Chrome: Launch",
-            "type": "chrome",
-            "request": "launch",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
         }
     ],
     "compounds": [

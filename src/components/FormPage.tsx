@@ -1,19 +1,18 @@
 import React from "react";
 import {
-    makeStyles,
     Button,
     Theme,
     Card,
     CardHeader,
     Avatar,
     Typography,
-    useTheme,
     CardContent,
     CardActions,
     Container,
     CircularProgress,
 } from "@material-ui/core";
 import { useAppContext } from "../components/Hooks/useAppContext";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
         minHeight: "100vh",
@@ -61,8 +60,8 @@ const FormPage: React.FC<Props> = ({
 }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const { blockingLoading, routeLoading } = useAppContext();
-    const buttonDisabled = loading || blockingLoading || routeLoading;
+    const { blockingPopup, routeLoading } = useAppContext();
+    const buttonDisabled = loading || blockingPopup || routeLoading;
 
     return (
         <>
@@ -79,6 +78,7 @@ const FormPage: React.FC<Props> = ({
                                                 ? "/logoDark.png"
                                                 : "/logo.jpg"
                                         }
+                                        alt="ISTE Logo"
                                         className={classes.logo}
                                     />
                                 </figure>

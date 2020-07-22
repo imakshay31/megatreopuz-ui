@@ -14,8 +14,9 @@ function CustomApp(props: AppProps & ExtraAppProps): React.ReactElement {
     const records: RecordMap = React.useMemo(() => {
         if (r) return r;
         if (typeof document !== "undefined") {
-            const recordsData = document.getElementById("relay-data")
-                ?.innerHTML;
+            const recordsData = (document.getElementById(
+                "relay-data"
+            ) as HTMLTemplateElement)?.content?.textContent;
             if (recordsData)
                 return JSON.parse(
                     Buffer.from(recordsData, "base64").toString()
@@ -23,6 +24,7 @@ function CustomApp(props: AppProps & ExtraAppProps): React.ReactElement {
         }
         return {};
     }, [r]);
+
     const env = React.useRef(getEnvironment().createEnvironment(records));
 
     return (

@@ -2,31 +2,21 @@ module.exports = {
     presets: ["next/babel"],
     plugins: [
         [
-            "transform-import",
+            "transform-imports",
             {
-                libraryName: "@material-ui/core",
-                libraryDirectory: "",
-                camel2DashComponentName: false,
+                "@material-ui/core": {
+                    transform: "@material-ui/core/${member}",
+                    preventFullImport: true,
+                },
+                "@material-ui/styles": {
+                    transform: "@material-ui/styles/${member}",
+                    preventFullImport: true,
+                },
+                "@material-ui/icons": {
+                    transform: "@material-ui/icons/${member}",
+                    preventFullImport: true,
+                },
             },
-            "@material-ui/core",
-        ],
-        [
-            "transform-import",
-            {
-                libraryName: "@material-ui/styles",
-                libraryDirectory: "",
-                camel2DashComponentName: false,
-            },
-            "@material-ui/styles",
-        ],
-        [
-            "transform-import",
-            {
-                libraryName: "@material-ui/icons",
-                libraryDirectory: "",
-                camel2DashComponentName: false,
-            },
-            "@material-ui/icons",
         ],
         [
             "relay",
