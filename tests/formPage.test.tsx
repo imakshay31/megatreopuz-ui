@@ -54,6 +54,7 @@ describe(`Form page`, () => {
                 /Expected server HTML to contain a matching/
             );
     });
+    
     it("Renders correctly", () => {
         // Use default theme and render
         const theme = createMuiTheme();
