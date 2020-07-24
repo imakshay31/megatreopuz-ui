@@ -19,11 +19,27 @@ module.exports = {
         ecmaVersion: 11,
         sourceType: "module",
     },
-    plugins: ["react", "relay", "@typescript-eslint"],
+    plugins: ["react", "relay", "@typescript-eslint", "jsx-a11y"],
     rules: {
         "react/display-name": 0,
         "react/prop-types": 0,
         "@typescript-eslint/no-explicit-any": 0,
     },
     ignorePatterns: ["*.js", "*.d.ts"],
+    settings: {
+        react: {
+            createClass: "createReactClass", // Regex for Component Factory to use,
+            // default to "createReactClass"
+            pragma: "React", // Pragma to use, default to "React"
+            version: "detect", // React version. "detect" automatically picks the version you have installed.
+            // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+            // default to latest and warns if missing
+            // It will default to "detect" in the future
+        },
+        linkComponents: [
+            // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
+            "Hyperlink",
+            { name: "Link", linkAttribute: "to" },
+        ],
+    },
 };

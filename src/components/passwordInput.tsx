@@ -17,6 +17,12 @@ const PasswordInput: React.FC<Props & TextFieldProps> = ({
     ...props
 }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const buttonProps = React.useMemo(() => {
+        const o = {};
+        props.id && (o["aria-controls"] = props.id);
+        return o;
+    }, [props]);
+
 
     return (
         <TextField
@@ -26,6 +32,7 @@ const PasswordInput: React.FC<Props & TextFieldProps> = ({
                 endAdornment: showToggle ? (
                     <InputAdornment position="end">
                         <IconButton
+                            {...buttonProps}
                             aria-label="toggle password visibility"
                             onClick={() => setShowPassword((p) => !p)}
                             edge="end">

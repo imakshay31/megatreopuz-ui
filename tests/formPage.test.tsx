@@ -1,3 +1,4 @@
+import ReactDOMServer from "react-dom/server";
 import React from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import FormPage from "../src/components/FormPage";
@@ -7,7 +8,7 @@ import faker from "faker";
 import { rgb2hex } from "./utils";
 import { CircularProgress } from "@material-ui/core";
 
-describe(`Loads correctly and displays correct content`, () => {
+describe(`Form page`, () => {
     // Test parameters
     const title = faker.lorem.lines(1);
     const formID = faker.random.uuid();
@@ -18,20 +19,21 @@ describe(`Loads correctly and displays correct content`, () => {
 
     it("Hydrates without error", () => {
         const spy = jest.spyOn(console, "error");
-        // Render on the server side
-        const { container } = render(
-            <FormPage title={title} formID={formID} submitLabel={submitLabel}>
-                <div>{content}</div>
-            </FormPage>,
-            {
-                wrapper: ({ children }) => (
-                    <ThemeProvider theme={createMuiTheme()}>
-                        {children}
-                    </ThemeProvider>
-                ),
-            }
+
+        const output = ReactDOMServer.renderToString(
+            <ThemeProvider theme={createMuiTheme()}>
+                <FormPage
+                    title={title}
+                    formID={formID}
+                    submitLabel={submitLabel}>
+                    <div>{content}</div>
+                </FormPage>
+            </ThemeProvider>
         );
-        // Hydrate on the server side
+
+        const container = document.createElement("div");
+        container.innerHTML = output;
+
         render(
             <FormPage title={title} formID={formID} submitLabel={submitLabel}>
                 <div>{content}</div>
@@ -47,15 +49,20 @@ describe(`Loads correctly and displays correct content`, () => {
             }
         );
 
-        expect(spy).not.toHaveBeenCalled();
+        for (const call of spy.mock.calls)
+            expect(call[0]).not.toMatch(
+                /Expected server HTML to contain a matching/
+            );
     });
-
     it("Renders correctly", () => {
         // Use default theme and render
         const theme = createMuiTheme();
 
         render(
-            <FormPage title={title} formID={formID} submitLabel={submitLabel}>
+            <FormPage
+                title={title}
+                formID={formID}
+                submitLabel={<span>{submitLabel}</span>}>
                 <div>{content}</div>
             </FormPage>,
             {
@@ -82,7 +89,9 @@ describe(`Loads correctly and displays correct content`, () => {
         // Renders content
         expect(screen.queryByText(content)).toBeTruthy();
         // Renders the button correctly
-        const button = document.querySelector(`[form="${formID}"]`);
+        const button = screen.queryByRole("button", {
+            name: "Submit button",
+        });
         expect(button).toBeTruthy();
         expect(button).toHaveTextContent(submitLabel);
     });
@@ -99,14 +108,14 @@ describe(`Loads correctly and displays correct content`, () => {
                 <div>{content}</div>
             </FormPage>,
             {
-                // hydrate: true,
                 wrapper: ({ children }) => (
                     <ThemeProvider theme={theme}>{children}</ThemeProvider>
                 ),
             }
         );
-        const button = document.querySelector(`[form="${formID}"]`);
-        expect(button).toBeTruthy();
+        const button = screen.queryByRole("button", {
+            name: submitLabel,
+        });
         expect(button).not.toHaveTextContent(submitLabel);
         // Check if the progress was rendered
         // It was mocked. Check the mock call
@@ -116,7 +125,7 @@ describe(`Loads correctly and displays correct content`, () => {
         });
     });
 
-    it("Renders with correct styling with dark mode", () => {
+    it("Renders with correct styling in dark mode", () => {
         const theme = createMuiTheme({
             palette: {
                 type: "dark",
@@ -127,7 +136,6 @@ describe(`Loads correctly and displays correct content`, () => {
                 <div data-test-id={testID}>{content}</div>
             </FormPage>,
             {
-                // hydrate: true,
                 wrapper: ({ children }) => (
                     <ThemeProvider theme={theme}>{children}</ThemeProvider>
                 ),

@@ -11,7 +11,6 @@ import {
     Container,
     CircularProgress,
 } from "@material-ui/core";
-import { useAppContext } from "../components/Hooks/useAppContext";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
@@ -60,8 +59,7 @@ const FormPage: React.FC<Props> = ({
 }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const { blockingPopup, routeLoading } = useAppContext();
-    const buttonDisabled = loading || blockingPopup || routeLoading;
+    const buttonDisabled = loading;
 
     return (
         <>
@@ -94,6 +92,11 @@ const FormPage: React.FC<Props> = ({
                                 disabled={buttonDisabled}
                                 form={formID}
                                 type="submit"
+                                aria-label={
+                                    typeof submitLabel === "string"
+                                        ? submitLabel
+                                        : "Submit button"
+                                }
                                 variant="text">
                                 {loading ? (
                                     <CircularProgress size={24} />
