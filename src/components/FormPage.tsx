@@ -82,7 +82,10 @@ const FormPage: React.FC<Props> = ({
                                 </figure>
                             }
                             subheader={
-                                <Typography align="center" variant="subtitle2">
+                                <Typography
+                                    component="h1"
+                                    align="center"
+                                    variant="subtitle2">
                                     {title}
                                 </Typography>
                             }></CardHeader>
