@@ -13,6 +13,7 @@ const SignUpPage: NextPage = () => {
             submitLabel="Sign Up">
             <PasswordInput
                 id="fsdafl"
+                label="Password"
                 showToggle
                 fullWidth
                 helperText="Lorem Ipsum"

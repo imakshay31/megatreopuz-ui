@@ -123,6 +123,7 @@ describe(`Form page`, () => {
         expect((CircularProgress as jest.Mock).mock.calls[0][0]).toEqual({
             size: 24,
         });
+        expect(screen.queryByRole("progressbar")).toBeTruthy();
     });
 
     it("Renders with correct styling in dark mode", () => {
