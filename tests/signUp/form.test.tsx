@@ -38,7 +38,7 @@ describe("Sign up form", () => {
         expect(form).toBeTruthy();
         expect(form).toHaveAttribute("id", id);
     });
-    describe.only("Username", () => {
+    describe("Username", () => {
         it("Is a required field", async () => {
             render(
                 <SignUpForm
@@ -143,7 +143,6 @@ describe("Sign up form", () => {
                 });
             });
 
-            // Always in a null state
             for (const call of (Username as jest.Mock).mock.calls)
                 expect(call[0]).not.toMatchObject({
                     state: "valid",
@@ -229,6 +228,32 @@ describe("Sign up form", () => {
                     state: "null",
                 });
             });
+
+            fireEvent.change(username, { target: { value: "Username" } });
+
+            jest.advanceTimersByTime(10000);
+
+            await waitFor(() => {
+                expect(
+                    (Username as jest.Mock).mock.calls[
+                        (Username as jest.Mock).mock.calls.length - 1
+                    ][0]
+                ).toMatchObject({
+                    state: "valid",
+                });
+            });
+
+            fireEvent.change(username, { target: { value: "" } });
+
+            await waitFor(() => {
+                expect(
+                    (Username as jest.Mock).mock.calls[
+                        (Username as jest.Mock).mock.calls.length - 1
+                    ][0]
+                ).toMatchObject({
+                    state: "null",
+                });
+            });
         });
 
         it("Goes from null to loading to unavailable and then back", async () => {
@@ -298,6 +323,22 @@ describe("Sign up form", () => {
                     state: "null",
                 });
             });
+
+            fireEvent.change(username, { target: { value: "Username" } });
+
+            jest.advanceTimersByTime(10000);
+
+            await waitFor(() => {
+                expect(
+                    (Username as jest.Mock).mock.calls[
+                        (Username as jest.Mock).mock.calls.length - 1
+                    ][0]
+                ).toMatchObject({
+                    state: "unavailable",
+                });
+            });
+
+            fireEvent.change(username, { target: { value: "" } });
         });
 
         it("Avoids race condition", async () => {
