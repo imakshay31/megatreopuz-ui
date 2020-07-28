@@ -19,7 +19,14 @@ module.exports = {
         ecmaVersion: 11,
         sourceType: "module",
     },
-    plugins: ["react", "relay", "@typescript-eslint", "jsx-a11y"],
+    plugins: [
+        "react",
+        "relay",
+        "@typescript-eslint",
+        "jsx-a11y",
+        "testing-library",
+        "jest-dom",
+    ],
     rules: {
         "react/display-name": 0,
         "react/prop-types": 0,
