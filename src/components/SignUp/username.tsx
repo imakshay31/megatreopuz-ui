@@ -20,10 +20,12 @@ const Username: React.FC<UsernameProps & TextFieldProps> = ({
         switch (state) {
             case "valid":
                 return "Username is available";
+            case "loading":
+                return "Checking for availability";
             case "unavailable":
                 return "Username is not available";
             default:
-                return "";
+                return "Start typing to check for username availability";
         }
     }, [state]);
 
@@ -50,7 +52,7 @@ const Username: React.FC<UsernameProps & TextFieldProps> = ({
                 ),
             }}
             {...props}
-            helperText={props.helperText || helperText || " "}
+            helperText={props.helperText || helperText}
             error={props.error || state === "unavailable"}
         />
     );

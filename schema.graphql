@@ -4,32 +4,15 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
-type BasicBoolean implements Node {
-  id: ID!
-  value: Boolean!
-}
-
-type Empty implements Node {
-  id: ID!
-}
-
-input LoginInput {
-  username: String!
-  password: String!
-}
-
 type Mutation {
-  login(credentials: LoginInput!): Empty!
-  logout: Empty!
-  requestPasswordReset(email: String!): Empty!
-  updatePassword(newPassword: String!, code: String!): Empty!
-}
-
-interface Node {
-  id: ID!
+  createUserSession(idToken: String!): UserInitStatus!
 }
 
 type Query {
-  isUserLoggedIn: BasicBoolean!
+  dummyQuery: Boolean!
+}
+
+type UserInitStatus {
+  initialised: Boolean!
 }
 
