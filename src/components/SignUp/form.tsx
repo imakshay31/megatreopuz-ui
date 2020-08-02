@@ -1,12 +1,22 @@
 import React from "react";
-import { Form, FormikFormProps, Formik, Field, FieldProps } from "formik";
+import { Form, FormikFormProps, Formik, Field, FieldProps, useFormik } from "formik";
 import * as yup from "yup";
 import Username, { UsernameProps } from "./username";
 import { ResolvablePromise } from "../resolvablePromise";
+import PasswordInput from "../passwordInput";
+import { TextField } from "@material-ui/core";
 
 const initialValues = {
     username: "",
+    password: "",
+    email: "",
+    country: "",
+    year: '' as unknown as number,
+    college: "",
+    phone: ""
 };
+
+
 
 interface Props {
     formProps?: FormikFormProps;
@@ -14,16 +24,28 @@ interface Props {
     usernameCheck: (
         username: string
     ) => ResolvablePromise<{ available: boolean; username: string }>;
+    formId: string
 }
 
 const validationSchema = yup.object({
     username: yup.string().required("Username cannot be empty"),
+    password: yup.string().required("Password is required"),
+    email: yup
+        .string()
+        .required("Email cant be empty ")
+        .email("Invalid email"),
+    college: yup.string().required("College name is required"),
+    phone: yup.string().required("Phone number is required"),
+    year: yup.number().required("College year is required"),
+    country: yup.string().required("Country name is required")
+
 });
 
 const SignUpForm: React.FC<Props> = ({
     formProps,
     onSubmit,
     usernameCheck,
+    formId,
 }) => {
     const [usernameState, setUsernameState] = React.useState<
         UsernameProps["state"]
@@ -87,21 +109,106 @@ const SignUpForm: React.FC<Props> = ({
             onSubmit={onSubmit}
             validationSchema={validationSchema}
             initialValues={initialValues}>
-            <Form aria-label="Sign up form" {...formProps}>
+            <Form aria-label="Sign up form" {...formProps} id={formId}>
                 <Field name="username" validate={validateUsername}>
                     {({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["username"]>) => (
-                        <Username
-                            fullWidth
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched && meta.error}
-                            state={usernameState}
-                            {...field}
-                        />
-                    )}
+                            <Username
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                state={usernameState}
+                                {...field}
+                            />
+                        )}
                 </Field>
+                <Field name="password" >
+                    {({ field, meta
+                    }: FieldProps<typeof initialValues["password"]>) => (
+                            <PasswordInput
+                                id="fsdafl"
+                                label="Password"
+
+                                showToggle
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                {...field}
+                            />
+                        )}
+                </Field>
+                <Field name="email" >
+                    {({ field, meta
+                    }: FieldProps<typeof initialValues["email"]>) => (
+                            <TextField
+                                id="email"
+                                label="Email"
+
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                {...field}
+                            />
+                        )}
+                </Field>
+                <Field name="college" >
+                    {({ field, meta
+                    }: FieldProps<typeof initialValues["college"]>) => (
+                            <TextField
+                                id="college"
+                                label="College"
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                {...field}
+                            />
+                        )}
+                </Field>
+                <Field name="country" >
+                    {({ field, meta
+                    }: FieldProps<typeof initialValues["country"]>) => (
+                            <TextField
+                                id="country"
+                                label="Country"
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                {...field}
+                            />
+                        )}
+                </Field>
+                <Field name="year" >
+                    {({ field, meta
+                    }: FieldProps<typeof initialValues["year"]>) => (
+                            <TextField
+                                id="year"
+                                label="Year"
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                {...field}
+                            />
+                        )}
+                </Field>
+                <Field name="phone" >
+                    {({ field, meta
+                    }: FieldProps<typeof initialValues["phone"]>) => (
+                            <TextField
+                                id="phone"
+                                label="Phone"
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                {...field}
+                            />
+                        )}
+                </Field>
+
+
+
+
             </Form>
         </Formik>
     );

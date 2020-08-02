@@ -21,16 +21,8 @@ const SignUpPage: NextPage = () => {
             formID="lreom"
             title="Sign up"
             submitLabel="Sign Up">
-            <SignUpForm usernameCheck={p} onSubmit={console.log} />
-            <PasswordInput
-                id="fsdafl"
-                label="Password"
-                showToggle
-                fullWidth
-                helperText="Lorem Ipsum"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+            <SignUpForm usernameCheck={p} onSubmit={(values) => console.log(values)} formId={"lreom"} />
+
         </FormPage>
     );
 };
