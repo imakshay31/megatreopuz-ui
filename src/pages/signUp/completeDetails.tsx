@@ -1,9 +1,8 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
-import PasswordInput from "../components/passwordInput";
-import FormPage from "../components/FormPage";
-import SignUpForm from "../components/SignUp/form";
-import { makeResolvable } from "../components/resolvablePromise";
+import React from "react";
+import FormPage from "../../components/FormPage";
+import SignUpForm from "../../components/SignUp/form";
+import { makeResolvable } from "../../components/resolvablePromise";
 
 const p = (username: string) =>
     makeResolvable<{ available: boolean; username: string }>((resolve) =>
@@ -14,15 +13,13 @@ const p = (username: string) =>
     );
 
 const SignUpPage: NextPage = () => {
-    const [password, setPassword] = useState<string>("");
     return (
         <FormPage
             loading={false}
             formID="lreom"
             title="Sign up"
             submitLabel="Sign Up">
-            <SignUpForm usernameCheck={p} onSubmit={(values) => console.log(values)} formId={"lreom"} />
-
+            <SignUpForm usernameCheck={p} onSubmit={console.log} />
         </FormPage>
     );
 };

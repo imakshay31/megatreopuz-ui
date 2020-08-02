@@ -39,7 +39,7 @@ describe("Username component", () => {
         const helperText = document.getElementById(
             username.getAttribute("aria-describedby")
         );
-        expect(helperText).toBeFalsy();
+        expect(helperText).toBeTruthy();
         expect(CircularProgress).not.toHaveBeenCalled();
         expect(Clear).not.toHaveBeenCalled();
         expect(Check).not.toHaveBeenCalled();
@@ -61,7 +61,7 @@ describe("Username component", () => {
         const helperText = document.getElementById(
             username.getAttribute("aria-describedby")
         );
-        expect(helperText).toBeFalsy();
+        expect(helperText).toBeTruthy();
         expect(screen.queryByRole("progressbar")).toBeTruthy();
         expect(CircularProgress).toHaveBeenCalled();
         expect((CircularProgress as jest.Mock).mock.calls[0][0]).toMatchObject({

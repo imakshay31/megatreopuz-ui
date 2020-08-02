@@ -48,6 +48,7 @@ interface Props {
     submitLabel: React.ReactNode;
     loading?: boolean;
     formID: string;
+    disableSubmit?: boolean;
 }
 
 const FormPage: React.FC<Props> = ({
@@ -56,10 +57,11 @@ const FormPage: React.FC<Props> = ({
     title,
     formID,
     children,
+    disableSubmit,
 }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const buttonDisabled = loading;
+    const buttonDisabled = loading || disableSubmit;
 
     return (
         <>
