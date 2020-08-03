@@ -4,15 +4,33 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+type Empty {
+  successful: Boolean!
+}
+
 type Mutation {
   createUserSession(idToken: String!): UserInitStatus!
+  createLocalUser(input: UserCreateInput!): Empty!
 }
 
 type Query {
-  dummyQuery: Boolean!
+  checkUsername(username: String!): UsernameAvailability!
+}
+
+input UserCreateInput {
+  name: String!
+  username: String!
+  college: String!
+  country: String!
+  phone: String!
+  year: Float!
 }
 
 type UserInitStatus {
   initialised: Boolean!
+}
+
+type UsernameAvailability {
+  available: Boolean!
 }
 

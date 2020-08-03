@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NextPage } from "next";
 import FormPage from "../components/FormPage";
 import LoginForm from "../components/Login/form";
@@ -19,6 +19,8 @@ const Login: NextPage = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const [mutate] = useMutation<loginMutation>(mutation);
     const router = useRouter();
+
+    // TODO: Check the state of the user : logged in or out?
     const onSubmit = async ({
         email,
         password,

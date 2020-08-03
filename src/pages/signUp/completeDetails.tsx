@@ -1,25 +1,100 @@
 import { NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 import FormPage from "../../components/FormPage";
 import SignUpForm from "../../components/SignUp/form";
 import { makeResolvable } from "../../components/resolvablePromise";
+import {
+    graphql,
+    fetchQuery,
+    useRelayEnvironment,
+    useMutation,
+} from "relay-hooks";
+import { completeDetailsUsernameCheckQuery } from "../../__generated__/completeDetailsUsernameCheckQuery.graphql";
+import { completeDetailsCreateUserMutation } from "../../__generated__/completeDetailsCreateUserMutation.graphql";
 
-const p = (username: string) =>
-    makeResolvable<{ available: boolean; username: string }>((resolve) =>
-        setTimeout(
-            () => resolve({ available: username !== "yash", username }),
-            username !== "yash" ? 2000 : 5000
-        )
-    );
+const query = graphql`
+    query completeDetailsUsernameCheckQuery($username: String!) {
+        checkUsername(username: $username) {
+            available
+        }
+    }
+`;
+
+const mutation = graphql`
+    mutation completeDetailsCreateUserMutation($input: UserCreateInput!) {
+        createLocalUser(input: $input) {
+            successful
+        }
+    }
+`;
 
 const SignUpPage: NextPage = () => {
+    const [loading, setLoading] = useState(false);
+    const [disabled, setDisabled] = useState(false);
+    const env = useRelayEnvironment();
+    const [mutate] = useMutation<completeDetailsCreateUserMutation>(mutation);
+
+    const promiseMaker = React.useMemo(() => {
+        return (username: string) =>
+            makeResolvable<{ available: boolean; username: string }>(
+                (resolve, reject) => {
+                    setDisabled(true);
+                    fetchQuery<completeDetailsUsernameCheckQuery>(
+                        env,
+                        query,
+                        {
+                            username,
+                        },
+                        {
+                            force: true,
+                        }
+                    )
+                        .then((output) =>
+                            resolve({
+                                username,
+                                available: output.checkUsername.available,
+                            })
+                        )
+                        .catch(reject)
+                        .finally(() => setDisabled(false));
+                }
+            );
+    }, [env]);
+
     return (
         <FormPage
-            loading={false}
-            formID="lreom"
+            disableSubmit={disabled}
+            loading={loading}
+            formID="complete-details-form"
             title="Sign up"
             submitLabel="Sign Up">
-            <SignUpForm usernameCheck={p} onSubmit={console.log} />
+            <SignUpForm
+                formProps={{
+                    id: "complete-details-form",
+                }}
+                usernameCheck={promiseMaker}
+                onSubmit={async (values) => {
+                    setLoading(true);
+                    try {
+                        await mutate({
+                            variables: {
+                                input: {
+                                    college: values.college,
+                                    country: values.country.label,
+                                    name: values.name,
+                                    phone: values.phone,
+                                    username: values.username,
+                                    year: values.year,
+                                },
+                            },
+                        });
+                    } catch (e) {
+                        console.error(e);
+                    } finally {
+                        setLoading(false);
+                    }
+                }}
+            />
         </FormPage>
     );
 };

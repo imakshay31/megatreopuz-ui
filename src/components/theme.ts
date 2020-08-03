@@ -6,6 +6,7 @@ const theme = createMuiTheme({
         primary: {
             main: blue[500],
         },
+        type: "dark",
     },
     props: {
         MuiTextField: {
