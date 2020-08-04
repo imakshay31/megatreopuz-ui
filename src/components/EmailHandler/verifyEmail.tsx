@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { NextPage } from "next";
-import firebase from "../../components/firebase";
+import firebase from "firebase/app";
 import { useRouter } from "next/dist/client/router";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -25,17 +25,17 @@ const useStyles = makeStyles({
     },
 });
 
-const VerifyEmail: NextPage = () => {
+interface Props {
+    code: string;
+}
+
+const VerifyEmail: NextPage<Props> = ({ code }) => {
     const classes = useStyles();
     const router = useRouter();
-    const code = router.query["oobCode"];
     useEffect(() => {
-        if (typeof code !== "string" || !code.length) {
-            return;
-        }
         firebase
             .auth()
-            .applyActionCode(code as string)
+            .applyActionCode(code)
             .then(() => {
                 console.log("Email verified");
                 router.push("/login");

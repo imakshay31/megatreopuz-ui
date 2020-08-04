@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NextPage } from "next";
 import FormPage from "../components/FormPage";
 import LoginForm from "../components/Login/form";
