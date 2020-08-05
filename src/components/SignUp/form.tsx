@@ -126,14 +126,14 @@ const SignUpForm: React.FC<Props> = ({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["username"]>) => (
-                        <Username
-                            fullWidth
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched && meta.error}
-                            state={usernameState}
-                            {...field}
-                        />
-                    )}
+                            <Username
+                                fullWidth
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched && meta.error}
+                                state={usernameState}
+                                {...field}
+                            />
+                        )}
                 </Field>
                 <Field name="name">
                     {({
@@ -156,88 +156,88 @@ const SignUpForm: React.FC<Props> = ({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["country"]>) => (
-                        <Autocomplete
-                            {...field}
-                            id="country-select"
-                            options={countries}
-                            classes={{
-                                option: classes.option,
-                            }}
-                            fullWidth
-                            autoHighlight
-                            getOptionLabel={(option) => option.label}
-                            renderOption={(option) => (
-                                <React.Fragment>
-                                    <span>{countryToFlag(option.code)}</span>
-                                    {option.label} ({option.code})
-                                </React.Fragment>
-                            )}
-                            renderInput={(params) => (
-                                <TextField
-                                    id="country-select-textfield"
-                                    {...params}
-                                    error={!!(meta.touched && meta.error)}
-                                    helperText={meta.touched && meta.error}
-                                    label="Choose a country"
-                                    variant="outlined"
-                                    inputProps={{
-                                        ...params.inputProps,
-                                        autoComplete: "new-password", // disable autocomplete and autofill
-                                    }}
-                                />
-                            )}
-                        />
-                    )}
+                            <Autocomplete
+                                {...field}
+                                id="country-select"
+                                options={countries}
+                                classes={{
+                                    option: classes.option,
+                                }}
+                                fullWidth
+                                autoHighlight
+                                getOptionLabel={(option) => option.label}
+                                renderOption={(option) => (
+                                    <React.Fragment>
+                                        <span>{countryToFlag(option.code)}</span>
+                                        {option.label} ({option.code})
+                                    </React.Fragment>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
+                                        id="country-select-textfield"
+                                        {...params}
+                                        error={!!(meta.touched && meta.error)}
+                                        helperText={meta.touched && meta.error}
+                                        label="Choose a country"
+                                        variant="outlined"
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: "new-password", // disable autocomplete and autofill
+                                        }}
+                                    />
+                                )}
+                            />
+                        )}
                 </Field>
                 <Field name="phone">
                     {({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["phone"]>) => (
-                        <TextField
-                            fullWidth
-                            id="phone-input"
-                            label="Phone number"
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ""}
-                        />
-                    )}
+                            <TextField
+                                fullWidth
+                                id="phone-input"
+                                label="Phone number"
+                                required
+                                {...field}
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched ? meta.error : ""}
+                            />
+                        )}
                 </Field>
                 <Field name="college">
                     {({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["college"]>) => (
-                        <TextField
-                            fullWidth
-                            id="college-input"
-                            label="College"
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ""}
-                        />
-                    )}
+                            <TextField
+                                fullWidth
+                                id="college-input"
+                                label="College"
+                                required
+                                {...field}
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched ? meta.error : ""}
+                            />
+                        )}
                 </Field>
                 <Field name="year">
                     {({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["year"]>) => (
-                        <TextField
-                            fullWidth
-                            id="year-input"
-                            label="Year"
-                            required
-                            inputProps={{ min: 0 }}
-                            type="number"
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ""}
-                        />
-                    )}
+                            <TextField
+                                fullWidth
+                                id="year-input"
+                                label="Year"
+                                required
+                                inputProps={{ min: 0 }}
+                                type="number"
+                                {...field}
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched ? meta.error : ""}
+                            />
+                        )}
                 </Field>
             </Form>
         </Formik>
