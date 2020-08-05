@@ -1,0 +1,39 @@
+"""
+Exposes a URL that specifies the behaviour of this scalar.
+"""
+directive @specifiedBy(
+  """
+  The URL that specifies the behaviour of this scalar.
+  """
+  url: String!
+) on SCALAR
+
+type Empty {
+  successful: Boolean!
+}
+
+type Mutation {
+  createUserSession(idToken: String!): UserInitStatus!
+  createLocalUser(input: UserCreateInput!): Empty!
+}
+
+type Query {
+  checkUsername(username: String!): UsernameAvailability!
+}
+
+input UserCreateInput {
+  name: String!
+  username: String!
+  college: String!
+  country: String!
+  phone: String!
+  year: Float!
+}
+
+type UserInitStatus {
+  initialised: Boolean!
+}
+
+type UsernameAvailability {
+  available: Boolean!
+}

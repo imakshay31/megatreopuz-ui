@@ -11,8 +11,9 @@ const initialValues = {
     username: "",
     phone: "",
     college: "",
-    year: "",
+    year: 1,
     country: countries[0],
+    name: "",
 };
 
 interface Props {
@@ -25,13 +26,14 @@ interface Props {
 
 const validationSchema = yup.object({
     username: yup.string().required("Username cannot be empty"),
+    name: yup.string().required("Name cannot be empty"),
     phone: yup.string().required("Phone number cannot be empty"),
     college: yup.string().required("College cannot be empty"),
     year: yup
         .number()
         .required("Year cannot be empty")
         .min(1, "Year cannot be less than 1"),
-    country: yup.mixed().required("Country cannot be empty").oneOf(countries),
+    country: yup.mixed().required("Country cannot be empty"),
 });
 
 const useStyles = makeStyles({
@@ -94,15 +96,21 @@ const SignUpForm: React.FC<Props> = ({
 
             setUsernameState("loading");
             currentPromise.current = usernameCheck(username);
-            // Wait for the query to be resolved
-            const { available, username: oldUsername } = await currentPromise
-                .current.promise;
-            // Promise might be resolved naturally or forcefully
-            // Check the value to see
+            try {
+                // Wait for the query to be resolved
+                const {
+                    available,
+                    username: oldUsername,
+                } = await currentPromise.current.promise;
+                // Promise might be resolved naturally or forcefully
+                // Check the value to see
 
-            if (!oldUsername) return undefined;
-            setUsernameState(available ? "valid" : "unavailable");
-            return undefined;
+                if (!oldUsername) return undefined;
+                setUsernameState(available ? "valid" : "unavailable");
+                return undefined;
+            } catch (e) {
+                return "Could not validate username";
+            }
         };
     }, [usernameCheck]);
 
@@ -126,6 +134,22 @@ const SignUpForm: React.FC<Props> = ({
                                 {...field}
                             />
                         )}
+                </Field>
+                <Field name="name">
+                    {({
+                        field,
+                        meta,
+                    }: FieldProps<typeof initialValues["name"]>) => (
+                        <TextField
+                            fullWidth
+                            id="name-input"
+                            label="Name"
+                            required
+                            {...field}
+                            error={!!(meta.touched && meta.error)}
+                            helperText={meta.touched ? meta.error : ""}
+                        />
+                    )}
                 </Field>
                 <Field name="country">
                     {({

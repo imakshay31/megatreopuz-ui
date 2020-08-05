@@ -1,9 +1,9 @@
 import React from "react";
 import { Form, FormikFormProps, Formik, Field, FieldProps } from "formik";
 import * as yup from "yup";
-import { TextField } from "@material-ui/core";
+import { TextField, Link as MuiLink } from "@material-ui/core";
 import PasswordInput from "../passwordInput";
-
+import Link from "next/link";
 const initialValues = {
     email: "",
     password: "",
@@ -63,6 +63,15 @@ const LoginForm: React.FC<Props> = ({ formProps, onSubmit }) => {
                         />
                     )}
                 </Field>
+                <Link href="/requestReset">
+                    <MuiLink
+                        href="/requestReset"
+                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                            e.stopPropagation();
+                        }}>
+                        Reset password
+                    </MuiLink>
+                </Link>
             </Form>
         </Formik>
     );
