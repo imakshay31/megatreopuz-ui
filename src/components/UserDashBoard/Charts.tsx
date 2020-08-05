@@ -38,6 +38,10 @@ export const data = [{
     topperScore: 3
 }];
 
+interface ChartProps {
+    data: any
+}
+
 
 const legendStyles = () => ({
     root: {
@@ -66,16 +70,16 @@ const legendLabelBase = ({ classes, ...restProps }) => (
 const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
 
 
-export default class Demo extends React.PureComponent {
+export default class Demo extends React.PureComponent<ChartProps>{
     constructor(props) {
         super(props);
-
         this.state = {
-            data,
+            data: this.props.data,
         };
     }
 
     render() {
+
         //@ts-ignore
         const { data: chartData } = this.state;
 

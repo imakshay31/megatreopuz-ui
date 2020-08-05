@@ -7,67 +7,80 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Paper, Divider } from '@material-ui/core';
+import { Paper, Divider, SvgIconTypeMap } from '@material-ui/core';
 import FaceIcon from '@material-ui/icons/Face';
 import { orange } from '@material-ui/core/colors';
+import { OverridableComponent } from '@material-ui/core/OverridableComponent';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            maxWidth: 400,
-            minWidth: 400
-        },
-        iconBg: {
-            height: "100px",
-            width: "100px",
-            position: "relative",
-            top: "80px",
-            left: "20px",
-            backgroundColor: orange[600],
-            color: theme.palette.getContrastText(orange[600])
 
-        }, icon: {
-            color: theme.palette.getContrastText(orange[600]),
-            fontSize: "80px",
-            marginLeft: "10px",
-            marginTop: "5px"
 
-        },
-        main: {
-            float: "right",
-            textAlign: "right"
-        },
-        min: {
-            padding: "10px"
-        },
-        footer: {
-            paddingTop: "10px"
-        }
-    }));
+interface Props {
+    Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>,
+    heading: string,
+    data: string,
+    unit: string
+    caption: string,
+    color: string
+}
 
-export default function ImgMediaCard() {
+const ImgMediaCard: React.FC<Props> = ({ Icon, heading, data, unit, caption, color }) => {
+    const useStyles = makeStyles((theme: Theme) =>
+        createStyles({
+            root: {
+                // maxWidth: 400,
+                // minWidth: 400
+                width: "100%"
+            },
+            iconBg: {
+                height: "100px",
+                width: "100px",
+                position: "relative",
+                top: "80px",
+                left: "20px",
+                backgroundColor: color,
+                color: theme.palette.getContrastText(color)
+
+            }, icon: {
+                color: theme.palette.getContrastText(color),
+                fontSize: "80px",
+                marginLeft: "10px",
+                marginTop: "5px"
+
+            },
+            main: {
+                float: "right",
+                textAlign: "right"
+            },
+            min: {
+                padding: "10px"
+            },
+            footer: {
+                paddingTop: "10px"
+            }
+        }))
     const classes = useStyles();
-
+    const i = <FaceIcon className={classes.icon} />
     return (
-        <div style={{ position: "absolute" }}>
-            <Paper className={classes.iconBg}
-                elevation={3}
-                square={true}
-            >
-                <FaceIcon className={classes.icon} />
-            </Paper>
-            <Card className={classes.root} elevation={2}>
-                <CardActionArea>
+        <div>
+            <div>
+                <Paper className={classes.iconBg}
+                    elevation={3}
+                    square={true}
+                >
+                    <Icon className={classes.icon} />
+                </Paper>
+                <Card className={classes.root} elevation={2}>
+
 
                     <CardContent className={classes.main}>
                         <div className={classes.min}>
                             <Typography gutterBottom variant={"body1"} component="h2" color="textSecondary">
-                                Rank
-          </Typography>
+                                {heading}
+                            </Typography>
                             <Typography gutterBottom variant="h5" component={"data"}>
-                                2/400               <Typography gutterBottom variant={"caption"} component={"span"} color="textSecondary">
-                                    position
-</Typography>
+                                {data}             <Typography gutterBottom variant={"caption"} component={"span"} color="textSecondary">
+                                    {unit}
+                                </Typography>
                             </Typography>
 
                         </div>
@@ -75,13 +88,15 @@ export default function ImgMediaCard() {
                         <div className={classes.footer}>
 
                             <Typography gutterBottom variant={"caption"} component={"span"} color="textSecondary">
-                                Shows you, your real time rank in contest
-</Typography>
+                                {caption}
+                            </Typography>
                         </div>
                     </CardContent>
-                </CardActionArea>
 
-            </Card>
-        </div>
+
+                </Card>
+
+            </div> </div>
     );
 }
+export default ImgMediaCard
