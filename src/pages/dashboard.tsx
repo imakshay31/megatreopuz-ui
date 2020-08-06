@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(5),
         },
         main: {
-            marginTop: 100,
+            marginTop: 70,
             zIndex: 0,
             width: "95%",
             marginLeft: "auto",
@@ -49,85 +49,106 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const UserDashboard: NextPage = () => {
-    const [drawer, setDrawer] = React.useState(false);
-
     const classes = useStyles();
     return (
-        <div className={classes.main}>
-            <div className={classes.root}>
-                <Grid container spacing={3}>
-                    <Grid item lg={3} md={6} sm={12} className={classes.custom}>
-                        <CustomCard
-                            Icon={FaceIcon}
-                            color={"#fb8c00"}
-                            heading={"Rank"}
-                            data={"2/400"}
-                            unit={"position"}
-                            caption={
-                                "Shows your rank among total number of participants in Contest"
-                            }
-                        />
+        <>
+            <Drawer />
+            <section className={classes.main}>
+                <div className={classes.root}>
+                    <Grid container spacing={3}>
+                        <Grid
+                            item
+                            lg={3}
+                            md={6}
+                            sm={12}
+                            className={classes.custom}>
+                            <CustomCard
+                                Icon={FaceIcon}
+                                color={"#fb8c00"}
+                                heading={"Rank"}
+                                data={"2/400"}
+                                unit={"position"}
+                                caption={
+                                    "Shows your rank among total number of participants in Contest"
+                                }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            lg={3}
+                            md={6}
+                            sm={12}
+                            className={classes.custom}>
+                            <CustomCard
+                                Icon={BrushIcon}
+                                color={"#2196F3"}
+                                heading={"Total attempts"}
+                                data={"5"}
+                                unit={"attempts"}
+                                caption={
+                                    "Shows total number of attempts made by you in Contest"
+                                }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            lg={3}
+                            md={6}
+                            sm={12}
+                            className={classes.custom}>
+                            <CustomCard
+                                Icon={SpellcheckIcon}
+                                color={"#55B05D"}
+                                heading={"Correct Questions"}
+                                data={"5/25"}
+                                unit={"questions"}
+                                caption={
+                                    "Shows how much questions you have done correctly"
+                                }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            lg={3}
+                            md={6}
+                            sm={12}
+                            className={classes.custom}>
+                            <CustomCard
+                                Icon={AccessAlarmsIcon}
+                                color={"#E7403B"}
+                                heading={"Time Left"}
+                                data={"6d 12h"}
+                                unit={"time"}
+                                caption={
+                                    "Shows time remaining for contest to be concluded"
+                                }
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item lg={3} md={6} sm={12} className={classes.custom}>
-                        <CustomCard
-                            Icon={BrushIcon}
-                            color={"#2196F3"}
-                            heading={"Total attempts"}
-                            data={"5"}
-                            unit={"attempts"}
-                            caption={
-                                "Shows total number of attempts made by you in Contest"
-                            }
-                        />
-                    </Grid>
-                    <Grid item lg={3} md={6} sm={12} className={classes.custom}>
-                        <CustomCard
-                            Icon={SpellcheckIcon}
-                            color={"#55B05D"}
-                            heading={"Correct Questions"}
-                            data={"5/25"}
-                            unit={"questions"}
-                            caption={
-                                "Shows how much questions you have done correctly"
-                            }
-                        />
-                    </Grid>
-                    <Grid item lg={3} md={6} sm={12} className={classes.custom}>
-                        <CustomCard
-                            Icon={AccessAlarmsIcon}
-                            color={"#E7403B"}
-                            heading={"Time Left"}
-                            data={"6d 12h"}
-                            unit={"time"}
-                            caption={
-                                "Shows time remaining for contest to be concluded"
-                            }
-                        />
-                    </Grid>
-                </Grid>
-            </div>
-            <div className={classes.chart}>
-                <Chart data={data} />
-            </div>
-            <div className={classes.buttonContainer}>
-                <div className={classes.b}>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}>
-                        Terms & Conditions
-                    </Button>
                 </div>
-                <div className={classes.b}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}>
-                        Proceed to contest
-                    </Button>
+                <div className={classes.chart}>
+                    <Chart data={data} />
                 </div>
-            </div>
-        </div>
+                <div className={classes.buttonContainer}>
+                    <div className={classes.b}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}>
+                            Terms & Conditions
+                        </Button>
+                    </div>
+                    <div className={classes.b}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}>
+                            Proceed to contest
+                        </Button>
+                    </div>
+                </div>
+            </section>
+        </>
     );
 };
 
