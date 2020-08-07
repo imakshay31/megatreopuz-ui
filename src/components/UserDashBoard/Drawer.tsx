@@ -1,28 +1,162 @@
 import React from "react";
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
+    Drawer,
+    Divider,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Hidden,
+    Avatar,
+    Box,
     Typography,
-    Button,
+    Fade,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import clsx from "clsx";
+import ThemeToggleButton from "../theme/modeToggle";
+import ImportantDevicesIcon from "@material-ui/icons/ImportantDevices";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import GamepadIcon from "@material-ui/icons/Gamepad";
+import InfoIcon from "@material-ui/icons/Info";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-const useStyles = makeStyles(() => ({}));
+const drawerWidth = 240;
+const useStyles = makeStyles((theme: Theme) => ({
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: "nowrap",
+    },
+    paper: { justifyContent: "space-between", overflow: "hidden" },
+    drawerOpen: {
+        width: drawerWidth,
+        transition: theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerClose: {
+        transition: theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: "hidden",
+        width: theme.spacing(7) + 1,
+        [theme.breakpoints.down("xs")]: {
+            width: 0,
+        },
+    },
+    mobileMenu: {
+        position: "fixed",
+        top: theme.spacing(1),
+        left: theme.spacing(2),
+        zIndex: theme.zIndex.drawer,
+    },
+    upperHalf: {},
+    lowerHalf: {},
+}));
+
+const icons = [
+    {
+        label: "Contest",
+        icon: <GamepadIcon />,
+    },
+    {
+        label: "Dashboard",
+        icon: <DashboardIcon />,
+    },
+    {
+        label: "Update Info",
+        icon: <InfoIcon />,
+    },
+    {
+        label: "Leader-Board",
+        icon: <ImportantDevicesIcon />,
+    },
+    {
+        label: "Log Out",
+        icon: <ExitToAppIcon />,
+    },
+];
 
 const CustomDrawer: React.FC = () => {
-    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const classes = useStyles({ open });
+
     return (
-        <AppBar position="fixed">
-            <Toolbar>
-                <IconButton edge="start" color="inherit" aria-label="menu">
+        <>
+            <Hidden smUp>
+                <IconButton
+                    onClick={() => setOpen(true)}
+                    className={classes.mobileMenu}>
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6">News</Typography>
-                <Button color="inherit">Login</Button>
-            </Toolbar>
-        </AppBar>
+            </Hidden>
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx(classes.paper, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}>
+                <div>
+                    <Box
+                        paddingTop={2}
+                        paddingBottom={2}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="column">
+                        <Avatar>Y</Avatar>
+                        <Fade in={open}>
+                            <Typography variant="subtitle2">@yashma</Typography>
+                        </Fade>
+                    </Box>
+                    <Divider />
+                    <List>
+                        {icons.map((icon, index) => (
+                            <ListItem button key={index}>
+                                <ListItemIcon>{icon.icon}</ListItemIcon>
+                                <ListItemText primary={icon.label} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider />
+                </div>
+                <div>
+                    <Fade in={open}>
+                        <Box
+                            paddingBottom={2}
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center">
+                            <ThemeToggleButton />
+                        </Box>
+                    </Fade>
+                    <Divider />
+                    <Box
+                        height={50}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center">
+                        <IconButton onClick={() => setOpen((o) => !o)}>
+                            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    </Box>
+                </div>
+            </Drawer>
+        </>
     );
 };
 
