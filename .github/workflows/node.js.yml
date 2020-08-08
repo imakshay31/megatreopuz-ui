@@ -41,9 +41,4 @@ jobs:
           PORT: ${{ secrets.UI_PORT }}
           KEY: ${{ secrets.SSHKEYS }}
           PASSPHRASE: ${{ secrets.PASSWORD }}
-      - run: cd megatreopuz-ui
-      - run: git pull
-      - run: npm ci
-      - run: npm install
-      - run: npm run relay
-      - run: npm run build --if-present
+      script: whoami
