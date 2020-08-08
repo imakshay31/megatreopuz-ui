@@ -41,4 +41,4 @@ jobs:
           PORT: ${{ secrets.UI_PORT }}
           KEY: ${{ secrets.SSHKEYS }}
           PASSPHRASE: ${{ secrets.PASSWORD }}
-      script: whoami
+          script: whoami
