@@ -40,7 +40,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.UI_PORT }}
           KEY: ${{ secrets.SSHKEYS }}
-          PASSPHRASE: ${{ secrets.SSHKEYS }}
+          PASSPHRASE: ${{ secrets.PASSWORD }}
       - run: cd megatreopuz-ui
       - run: git pull
       - run: npm ci
