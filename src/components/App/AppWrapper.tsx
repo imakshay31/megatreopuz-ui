@@ -1,17 +1,24 @@
 import React from "react";
-import theme, { themeGen } from "../theme";
 import HeadTags from "./head";
-import { CssBaseline, PaletteType } from "@material-ui/core";
+import { CssBaseline, Button } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import "../firebase";
 import firebase from "firebase/app";
-import { createMuiTheme } from "@material-ui/core/styles"
+import { createMuiTheme } from "@material-ui/core/styles";
 import { RelayEnvironmentProvider } from "relay-hooks";
 import { getEnvironment } from "../Relay/environment";
 import { Environment } from "react-relay";
-import CustomDrawer from "../UserDashBoard/Drawer";
-import { dark } from "@material-ui/core/styles/createPalette";
-import blue from "@material-ui/core/colors/blue";
+import {
+    themeProps,
+    defaultPrimary,
+    defaultSecondary,
+    defaultMode,
+    toggleMode,
+    themeContext,
+} from "../theme";
+import ThemeToggleButton from "../theme/modeToggle";
+import ColorPicker from "./colorPicker";
+
 const AppWrapper: React.FC = ({ children }) => {
     React.useEffect(() => {
         const jssStyles = document.querySelector("#jss-server-side");
@@ -35,88 +42,31 @@ const AppWrapper: React.FC = ({ children }) => {
     //     });
     // });
 
-    const defaultPrimary = "#2196f3"
-    const defaultSecondary = "#F64857"
-    const [darkTheme, setDarkTheme] = React.useState(false)
-    const palleteType: PaletteType = darkTheme ? "dark" : "light"
-    const [primary, setPrimary] = React.useState("#2196f3")
-    const [secondary, setSecondary] = React.useState("#F64857")
-    const theme2 = createMuiTheme({
-        palette: {
-            type: palleteType,
-            primary: {
-                main: primary,
+    const [currentTheme, setCurrentTheme] = React.useState(() =>
+        createMuiTheme({
+            props: themeProps,
+            palette: {
+                primary: {
+                    main: defaultPrimary,
+                },
+                secondary: {
+                    main: defaultSecondary,
+                },
+                type: defaultMode,
             },
-            secondary: {
-                main: secondary
-            }
-        },
-        props: {
-            MuiTextField: {
-                variant: "outlined",
-                margin: "dense",
-            },
-        },
-    });
-
-    const Reset = () => {
-        setPrimary(defaultPrimary)
-        setSecondary(defaultSecondary)
-        localStorage.setItem("primary", defaultPrimary)
-        localStorage.setItem("secondary", defaultSecondary)
-        localStorage.setItem("dark", "false")
-    }
-
-
-    const [currentTheme, setCurrentTheme] = React.useState(theme2);
-
-
-
-    React.useEffect(() => {
-        if (primary != defaultPrimary)
-            localStorage.setItem("primary", primary)
-        if (secondary != defaultSecondary)
-            localStorage.setItem("secondary", secondary)
-        if (darkTheme) {
-            localStorage.setItem("dark", "true")
-        }
-    }, [theme2])
-
-    React.useEffect(() => {
-        const primaryC = localStorage.getItem("primary")
-        primaryC ? setPrimary(primaryC) : ""
-        const secondaryC = localStorage.getItem("secondary")
-        secondaryC ? setSecondary(secondaryC) : ""
-        const dark = localStorage.getItem("dark")
-        dark == "true" ? setDarkTheme(true) : ""
-    }, [])
-
-
+        })
+    );
 
     const env = React.useRef<Environment>(null);
-
     if (env.current === null) env.current = getEnvironment();
-    const handleColorPrimaryChange = (a) => {
-        const s = a.hex
-
-        s ? setPrimary(s) : ""
-    }
-    const handleColorSecondaryChange = (a) => {
-
-        const s = a.hex
-
-        setSecondary(s)
-    }
 
     return (
         <>
             <HeadTags mainColor={currentTheme.palette.primary.main} />
             <RelayEnvironmentProvider environment={getEnvironment()}>
-
                 <ThemeProvider theme={currentTheme}>
-
                     <CssBaseline />
-                    <CustomDrawer
+                    {/* <CustomDrawer
                         toggleTheme={() => setDarkTheme(!darkTheme)}
                         primaryColor={primary}
                         theme2={theme2}
@@ -124,10 +74,20 @@ const AppWrapper: React.FC = ({ children }) => {
                         secondaryColor={secondary}
                         changeSecondaryColor={(a) => { handleColorSecondaryChange(a) }}
                         reset={() => Reset()}
-                    >
-                        {children}
-                    </CustomDrawer>
-
+                    > */}
+                    <themeContext.Provider
+                        value={{
+                            mode: currentTheme.palette.type,
+                            primary: currentTheme.palette.primary.main,
+                            secondary: currentTheme.palette.secondary.main,
+                            toggleMode: () => toggleMode(setCurrentTheme),
+                            updateColors: () => {
+                                /* Do nothing */
+                            },
+                        }}>
+                        <main>{children}</main>
+                    </themeContext.Provider>
+                    {/* </CustomDrawer> */}
                 </ThemeProvider>
             </RelayEnvironmentProvider>
         </>
@@ -135,7 +95,3 @@ const AppWrapper: React.FC = ({ children }) => {
 };
 
 export default AppWrapper;
-
-
-
-

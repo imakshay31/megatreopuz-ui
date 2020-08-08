@@ -11,6 +11,7 @@ import {
 } from "relay-hooks";
 import { completeDetailsUsernameCheckQuery } from "../../__generated__/completeDetailsUsernameCheckQuery.graphql";
 import { completeDetailsCreateUserMutation } from "../../__generated__/completeDetailsCreateUserMutation.graphql";
+import { useRouter } from "next/dist/client/router";
 
 const query = graphql`
     query completeDetailsUsernameCheckQuery($username: String!) {
@@ -33,7 +34,7 @@ const SignUpPage: NextPage = () => {
     const [disabled, setDisabled] = useState(false);
     const env = useRelayEnvironment();
     const [mutate] = useMutation<completeDetailsCreateUserMutation>(mutation);
-
+    const router = useRouter();
     const promiseMaker = React.useMemo(() => {
         return (username: string) =>
             makeResolvable<{ available: boolean; username: string }>(
@@ -49,12 +50,13 @@ const SignUpPage: NextPage = () => {
                             force: true,
                         }
                     )
-                        .then((output) =>
+                        .then((output) => {
                             resolve({
                                 username,
                                 available: output.checkUsername.available,
-                            })
-                        )
+                            });
+                            router.push("/dashboard");
+                        })
                         .catch(reject)
                         .finally(() => setDisabled(false));
                 }

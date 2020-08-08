@@ -33,6 +33,7 @@ const Login: NextPage = () => {
             const result = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
+            if (!result.user.emailVerified) return;
             const mutationResult = await mutate({
                 variables: {
                     idToken: await result.user.getIdToken(),

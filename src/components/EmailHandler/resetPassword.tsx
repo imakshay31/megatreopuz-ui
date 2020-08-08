@@ -25,6 +25,7 @@ const ResetPassword: NextPage<Props> = ({ code }) => {
         try {
             await firebase.auth().confirmPasswordReset(code, password);
             console.log("Password reset successful");
+            router.push("/login");
         } catch (e) {
             console.error(e);
         } finally {
