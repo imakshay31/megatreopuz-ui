@@ -27,3 +27,22 @@ jobs:
       - run: npm install
       - run: npm run relay
       - run: npm run build --if-present
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Executing remote  command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.UI_HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.UI_PORT }}
+          KEY: ${{ secrets.SSHKEYS }}
+      - run: cd megatreopuz-ui
+      - run: git pull
+      - run: npm ci
+      - run: npm install
+      - run: npm run relay
+      - run: npm run build --if-present
