@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "get-schema": "get-graphql-schema http://megatreopuz.istemanit.in/graphql > schema.graphql",
-    "relay": "npm run get-schema && relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx --language typescript --artifactDirectory ./src/__generated__",
+    "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx --language typescript --artifactDirectory ./src/__generated__",
     "commit": "commit",
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",

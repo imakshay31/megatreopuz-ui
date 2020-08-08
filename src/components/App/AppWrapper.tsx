@@ -20,20 +20,20 @@ const AppWrapper: React.FC = ({ children }) => {
         }
     }, []);
 
-    React.useEffect(() => {
-        firebase.auth().onAuthStateChanged(async (user) => {
-            if (user) {
-                if (!user.emailVerified) {
-                    try {
-                        await user.sendEmailVerification();
-                        console.log("Email sent");
-                    } catch {
-                        console.log("Error sending the verification email");
-                    }
-                }
-            }
-        });
-    });
+    // React.useEffect(() => {
+    //     firebase.auth().onAuthStateChanged(async (user) => {
+    //         if (user) {
+    //             if (!user.emailVerified) {
+    //                 try {
+    //                     await user.sendEmailVerification();
+    //                     console.log("Email sent");
+    //                 } catch {
+    //                     console.log("Error sending the verification email");
+    //                 }
+    //             }
+    //         }
+    //     });
+    // });
 
     const defaultPrimary = "#2196f3"
     const defaultSecondary = "#F64857"
