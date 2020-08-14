@@ -1,10 +1,6 @@
-"""
-Exposes a URL that specifies the behaviour of this scalar.
-"""
+"""Exposes a URL that specifies the behaviour of this scalar."""
 directive @specifiedBy(
-  """
-  The URL that specifies the behaviour of this scalar.
-  """
+  """The URL that specifies the behaviour of this scalar."""
   url: String!
 ) on SCALAR
 
@@ -15,6 +11,7 @@ type Empty {
 type Mutation {
   createUserSession(idToken: String!): UserInitStatus!
   createLocalUser(input: UserCreateInput!): Empty!
+  updateLocalUser(input: UserUpdateInput!): Empty!
 }
 
 type Query {
@@ -37,3 +34,12 @@ type UserInitStatus {
 type UsernameAvailability {
   available: Boolean!
 }
+
+input UserUpdateInput {
+  name: String
+  college: String
+  country: String
+  phone: String
+  year: Float
+}
+
