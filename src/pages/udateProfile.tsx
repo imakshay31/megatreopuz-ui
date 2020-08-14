@@ -6,6 +6,7 @@ const Profile: NextPage = () => {
 
     return <div>
         Testing CI/CD workflows
+        this shall work
     </div>
 }
 
