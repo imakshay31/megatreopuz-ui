@@ -6,7 +6,8 @@
 
     "get-schema": "get-graphql-schema http://68.183.84.151:9000/graphql > schema.graphql",
     "relay": "npm run get-schema && relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx --language typescript --artifactDirectory ./src/__generated__",
- "commit": "commit",
+    "commit": "commit",
+
     "dev": "NODE_OPTIONS='--inspect' next dev -p 8080",
     "build": "next build",
     "start": "next start",
