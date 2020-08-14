@@ -89,7 +89,7 @@ const UserDashboard: NextPage = () => {
                             data={"6d 12h"}
                             unit={"time"}
                             caption={
-                                "Shows time remaining for contest to be concluded CD Working"
+                                "Shows time remaining for contest to be concluded CD is Working"
                             }
                         />
                     </Grid>
