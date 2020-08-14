@@ -3,14 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
+
     "get-schema": "get-graphql-schema http://68.183.84.151:9000/graphql > schema.graphql",
     "relay": "npm run get-schema && relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx --language typescript --artifactDirectory ./src/__generated__",
-=======
-    "get-schema": "get-graphql-schema http://megatreopuz.istemanit.in/graphql > schema.graphql",
-    "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx --language typescript --artifactDirectory ./src/__generated__",
->>>>>>> b665a5897f76d72c979c51a089693bd1e6ae24ad
-    "commit": "commit",
+ "commit": "commit",
     "dev": "NODE_OPTIONS='--inspect' next dev -p 8080",
     "build": "next build",
     "start": "next start",
