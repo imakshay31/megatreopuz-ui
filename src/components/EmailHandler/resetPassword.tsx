@@ -4,12 +4,14 @@ import firebase from "firebase/app";
 import { useRouter } from "next/dist/client/router";
 import FormPage from "../FormPage";
 import ResetPasswordForm from "../RequestReset/resetForm";
+import { useCustomNotification } from "../App/useNotification";
 interface Props {
     code: string;
 }
 
 const ResetPassword: NextPage<Props> = ({ code }) => {
     const router = useRouter();
+    const showNotification = useCustomNotification()
     const [email, setEmail] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(true);
     useEffect(() => {
@@ -24,10 +26,12 @@ const ResetPassword: NextPage<Props> = ({ code }) => {
         setLoading(true);
         try {
             await firebase.auth().confirmPasswordReset(code, password);
-            console.log("Password reset successful");
+
+            showNotification("Password reset succesful", "success")
             router.push("/login");
         } catch (e) {
-            console.error(e);
+
+            showNotification("Unable to reset password", "error")
         } finally {
             setLoading(false);
         }

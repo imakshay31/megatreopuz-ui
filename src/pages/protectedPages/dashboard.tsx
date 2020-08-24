@@ -1,13 +1,18 @@
 import React from "react";
 import { NextPage } from "next";
 import { Button, Grid, Divider, Box } from "@material-ui/core";
-import Drawer from "../components/UserDashBoard/Drawer";
-import CustomCard from "../components/App/card";
+import Drawer from "../../components/UserDashBoard/Drawer";
+import CustomCard from "../../components/App/card";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import FaceIcon from "@material-ui/icons/Face";
 import AccessAlarmsIcon from "@material-ui/icons/AccessAlarms";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import BrushIcon from "@material-ui/icons/Brush";
+import { ProtectedPageProps } from "../_app"
+
+
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,11 +43,15 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const UserDashboard: NextPage = () => {
+
+const UserDashboard: NextPage<ProtectedPageProps> = ({ viewer, refetch, ...props }) => {
+
     const classes = useStyles();
+
     return (
         <>
-            <Drawer />
+            <Drawer name={viewer.name} username={viewer.userName} />
+
             <section className={classes.main}>
                 <Grid container justify="center" spacing={3}>
                     <Grid item lg={4} md={6} xs={12}>
@@ -57,6 +66,7 @@ const UserDashboard: NextPage = () => {
                             }
                         />
                     </Grid>
+                    {alert}
                     <Grid item lg={4} md={6} xs={12}>
                         <CustomCard
                             Icon={BrushIcon}

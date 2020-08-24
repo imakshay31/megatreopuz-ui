@@ -6,7 +6,7 @@ import { ResolvablePromise } from "../resolvablePromise";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { countries, countryToFlag } from "./countries";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 const initialValues = {
     username: "",
     phone: "",
@@ -140,16 +140,16 @@ const SignUpForm: React.FC<Props> = ({
                         field,
                         meta,
                     }: FieldProps<typeof initialValues["name"]>) => (
-                        <TextField
-                            fullWidth
-                            id="name-input"
-                            label="Name"
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ""}
-                        />
-                    )}
+                            <TextField
+                                fullWidth
+                                id="name-input"
+                                label="Name"
+                                required
+                                {...field}
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched ? meta.error : ""}
+                            />
+                        )}
                 </Field>
                 <Field name="country">
                     {({
@@ -240,6 +240,7 @@ const SignUpForm: React.FC<Props> = ({
                         )}
                 </Field>
             </Form>
+
         </Formik>
     );
 };

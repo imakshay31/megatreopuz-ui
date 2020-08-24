@@ -5,7 +5,7 @@ import FormPage from "../src/components/FormPage";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import faker from "faker";
-import { rgb2hex } from "./utils";
+import { rgb2hex } from "../src/utils";
 import { CircularProgress } from "@material-ui/core";
 
 describe(`Form page`, () => {
@@ -54,7 +54,7 @@ describe(`Form page`, () => {
                 /Expected server HTML to contain a matching/
             );
     });
-    
+
     it("Renders correctly", () => {
         // Use default theme and render
         const theme = createMuiTheme();

@@ -25,6 +25,8 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import GamepadIcon from "@material-ui/icons/Gamepad";
 import InfoIcon from "@material-ui/icons/Info";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useRouter } from "next/dist/client/router";
+import cookie from "js-cookie"
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
@@ -62,32 +64,48 @@ const useStyles = makeStyles((theme: Theme) => ({
     lowerHalf: {},
 }));
 
-const icons = [
-    {
-        label: "Contest",
-        icon: <GamepadIcon />,
-    },
-    {
-        label: "Dashboard",
-        icon: <DashboardIcon />,
-    },
-    {
-        label: "Update Info",
-        icon: <InfoIcon />,
-    },
-    {
-        label: "Leader-Board",
-        icon: <ImportantDevicesIcon />,
-    },
-    {
-        label: "Log Out",
-        icon: <ExitToAppIcon />,
-    },
-];
 
-const CustomDrawer: React.FC = () => {
+
+
+interface DrawerProps {
+    name: string,
+    username: string
+}
+
+const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles({ open });
+    const router = useRouter()
+    const icons = [
+        {
+            label: "Contest",
+            icon: <GamepadIcon />,
+            onClick: () => { router.push("/protectedPages/dashboard") }
+        },
+        {
+            label: "Dashboard",
+            icon: <DashboardIcon />,
+            onClick: () => { router.push("/protectedPages/dashboard") }
+        },
+        {
+            label: "Update Info",
+            icon: <InfoIcon />,
+            onClick: () => { router.push("/protectedPages/dashboard") }
+        },
+        {
+            label: "Leader-Board",
+            icon: <ImportantDevicesIcon />,
+            onClick: () => { router.push("/protectedPages/dashboard") }
+        },
+        {
+            label: "Log Out",
+            icon: <ExitToAppIcon />,
+            onClick: () => {
+                cookie.remove("authorization")
+                router.push("/login")
+            }
+        },
+    ];
 
     return (
         <>
@@ -118,15 +136,15 @@ const CustomDrawer: React.FC = () => {
                         alignItems="center"
                         justifyContent="center"
                         flexDirection="column">
-                        <Avatar>Y</Avatar>
+                        <Avatar>{name.charAt(0)}</Avatar>
                         <Fade in={open}>
-                            <Typography variant="subtitle2">@yashma</Typography>
+                            <Typography variant="subtitle2">{username}</Typography>
                         </Fade>
                     </Box>
                     <Divider />
                     <List>
                         {icons.map((icon, index) => (
-                            <ListItem button key={index}>
+                            <ListItem button key={index} onClick={icon.onClick}>
                                 <ListItemIcon>{icon.icon}</ListItemIcon>
                                 <ListItemText primary={icon.label} />
                             </ListItem>

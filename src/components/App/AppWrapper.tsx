@@ -1,13 +1,14 @@
 import React from "react";
 import HeadTags from "./head";
-import { CssBaseline, Button } from "@material-ui/core";
+import { CssBaseline, Button, LinearProgress } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import "../firebase";
 import firebase from "firebase/app";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { RelayEnvironmentProvider } from "relay-hooks";
+import { RelayEnvironmentProvider, graphql } from "relay-hooks";
 import { getEnvironment } from "../Relay/environment";
 import { Environment } from "react-relay";
+import { useIsUserLoggedIn } from "./../../utils"
 import {
     themeProps,
     defaultPrimary,
@@ -18,6 +19,14 @@ import {
 } from "../theme";
 import ThemeToggleButton from "../theme/modeToggle";
 import ColorPicker from "./colorPicker";
+import { ToastContainer } from "react-toastify";
+import { useRouter, Router } from "next/dist/client/router";
+import LinearLoader from "./LinearLoader";
+
+
+
+
+
 
 const AppWrapper: React.FC = ({ children }) => {
     React.useEffect(() => {
@@ -26,6 +35,11 @@ const AppWrapper: React.FC = ({ children }) => {
             jssStyles.parentElement.removeChild(jssStyles);
         }
     }, []);
+
+
+
+
+
 
     // React.useEffect(() => {
     //     firebase.auth().onAuthStateChanged(async (user) => {
@@ -57,16 +71,23 @@ const AppWrapper: React.FC = ({ children }) => {
         })
     );
 
-    const env = React.useRef<Environment>(null);
-    if (env.current === null) env.current = getEnvironment();
+    const router = useRouter()
+    const [routeChange, setRouteChange] = React.useState<boolean>(false);
+    Router.events.on("routeChangeStart", () => {
+        setRouteChange(true);
+    });
+    Router.events.on("routeChangeComplete", () => setRouteChange(false));
+    Router.events.on("routeChangeError", () => setRouteChange(false));
+
+
 
     return (
         <>
             <HeadTags mainColor={currentTheme.palette.primary.main} />
-            <RelayEnvironmentProvider environment={getEnvironment()}>
-                <ThemeProvider theme={currentTheme}>
-                    <CssBaseline />
-                    {/* <CustomDrawer
+
+            <ThemeProvider theme={currentTheme}>
+                <CssBaseline />
+                {/* <CustomDrawer
                         toggleTheme={() => setDarkTheme(!darkTheme)}
                         primaryColor={primary}
                         theme2={theme2}
@@ -75,21 +96,23 @@ const AppWrapper: React.FC = ({ children }) => {
                         changeSecondaryColor={(a) => { handleColorSecondaryChange(a) }}
                         reset={() => Reset()}
                     > */}
-                    <themeContext.Provider
-                        value={{
-                            mode: currentTheme.palette.type,
-                            primary: currentTheme.palette.primary.main,
-                            secondary: currentTheme.palette.secondary.main,
-                            toggleMode: () => toggleMode(setCurrentTheme),
-                            updateColors: () => {
-                                /* Do nothing */
-                            },
-                        }}>
-                        <main>{children}</main>
-                    </themeContext.Provider>
-                    {/* </CustomDrawer> */}
-                </ThemeProvider>
-            </RelayEnvironmentProvider>
+                <LinearLoader loading={routeChange} />
+                <themeContext.Provider
+                    value={{
+                        mode: currentTheme.palette.type,
+                        primary: currentTheme.palette.primary.main,
+                        secondary: currentTheme.palette.secondary.main,
+                        toggleMode: () => toggleMode(setCurrentTheme),
+                        updateColors: () => {
+                            /* Do nothing */
+                        },
+                    }}>
+                    <main>{children}</main>
+                    <ToastContainer style={{ zIndex: 100, position: "absolute" }} />
+                </themeContext.Provider>
+                {/* </CustomDrawer> */}
+            </ThemeProvider>
+
         </>
     );
 };

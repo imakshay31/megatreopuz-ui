@@ -10,8 +10,13 @@ import {
     CardActions,
     Container,
     CircularProgress,
+    SvgIconProps,
+    SvgIcon,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+
+
+
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
         minHeight: "100vh",
@@ -43,12 +48,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
+
+
 interface Props {
     title: React.ReactNode;
     submitLabel: React.ReactNode;
     loading?: boolean;
     formID: string;
     disableSubmit?: boolean;
+    googleButton?: boolean;
+    googleTitle?: string;
+    googleExec?: () => void
 }
 
 const FormPage: React.FC<Props> = ({
@@ -58,10 +68,16 @@ const FormPage: React.FC<Props> = ({
     formID,
     children,
     disableSubmit,
+    googleButton,
+    googleTitle,
+    googleExec
 }) => {
+
+
     const classes = useStyles();
     const theme = useTheme();
     const buttonDisabled = loading || disableSubmit;
+
 
     return (
         <>
@@ -106,9 +122,21 @@ const FormPage: React.FC<Props> = ({
                                 {loading ? (
                                     <CircularProgress size={24} />
                                 ) : (
-                                    submitLabel
-                                )}
+                                        submitLabel
+                                    )}
                             </Button>
+                            {googleButton && <Button
+                                onClick={() => googleExec()}
+
+
+                                variant="text">
+                                {loading ? (
+                                    <CircularProgress size={24} />
+                                ) : (
+                                        googleTitle
+                                    )}
+                            </Button>}
+
                         </CardActions>
                     </Card>
                 </Container>

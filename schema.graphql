@@ -16,6 +16,18 @@ type Mutation {
 
 type Query {
   checkUsername(username: String!): UsernameAvailability!
+  getPlayer: User!
+}
+
+type User {
+  id: String!
+  userName: String!
+  name: String!
+  phone: String!
+  college: String!
+  email: String!
+  country: String!
+  year: Int!
 }
 
 input UserCreateInput {
@@ -29,6 +41,7 @@ input UserCreateInput {
 
 type UserInitStatus {
   initialised: Boolean!
+  cookie: String!
 }
 
 type UsernameAvailability {
@@ -37,6 +50,7 @@ type UsernameAvailability {
 
 input UserUpdateInput {
   name: String
+  userName: String
   college: String
   country: String
   phone: String

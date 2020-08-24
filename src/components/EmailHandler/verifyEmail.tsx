@@ -9,6 +9,7 @@ import {
     CircularProgress,
     Box,
 } from "@material-ui/core";
+import { useCustomNotification } from "../App/useNotification";
 
 const useStyles = makeStyles({
     section: {
@@ -32,15 +33,16 @@ interface Props {
 const VerifyEmail: NextPage<Props> = ({ code }) => {
     const classes = useStyles();
     const router = useRouter();
+    const showNotification = useCustomNotification()
     useEffect(() => {
         firebase
             .auth()
             .applyActionCode(code)
             .then(() => {
-                console.log("Email verified");
+                showNotification("Email verified", "success")
                 router.push("/login");
             })
-            .catch(console.error);
+            .catch(() => { showNotification("Something went wrong", "error") });
     }, [code, router]);
     return (
         <section className={classes.section}>

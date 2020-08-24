@@ -12,6 +12,7 @@ import {
 import { completeDetailsUsernameCheckQuery } from "../../__generated__/completeDetailsUsernameCheckQuery.graphql";
 import { completeDetailsCreateUserMutation } from "../../__generated__/completeDetailsCreateUserMutation.graphql";
 import { useRouter } from "next/dist/client/router";
+import { useCustomNotification } from "../../components/App/useNotification"
 
 const query = graphql`
     query completeDetailsUsernameCheckQuery($username: String!) {
@@ -35,6 +36,7 @@ const SignUpPage: NextPage = () => {
     const env = useRelayEnvironment();
     const [mutate] = useMutation<completeDetailsCreateUserMutation>(mutation);
     const router = useRouter();
+    const showNotification = useCustomNotification()
     const promiseMaker = React.useMemo(() => {
         return (username: string) =>
             makeResolvable<{ available: boolean; username: string }>(
@@ -55,7 +57,6 @@ const SignUpPage: NextPage = () => {
                                 username,
                                 available: output.checkUsername.available,
                             });
-                            router.push("/dashboard");
                         })
                         .catch(reject)
                         .finally(() => setDisabled(false));
@@ -91,7 +92,7 @@ const SignUpPage: NextPage = () => {
                             },
                         });
                     } catch (e) {
-                        console.error(e);
+                        showNotification(e, "error")
                     } finally {
                         setLoading(false);
                     }
