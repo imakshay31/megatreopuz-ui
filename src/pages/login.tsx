@@ -59,7 +59,7 @@ const Login: NextPage = () => {
     }
 
     const redirectUser = async (idToken: string) => {
-        console.log(idToken)
+
         const mutationResult = await mutate({
             variables: {
                 idToken: idToken,
