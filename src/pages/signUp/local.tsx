@@ -3,9 +3,14 @@ import React from "react";
 import FormPage from "../../components/FormPage";
 import SignUpLocalForm from "../../components/SignUp/localForm";
 import firebase from "firebase/app";
+import { useRouter } from "next/dist/client/router";
+import { useCustomNotification } from "../../components/App/useNotification";
 
 const SignUpPage: NextPage = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
+    const router = useRouter()
+    const showNotification = useCustomNotification()
+
 
     const onSubmit = async ({
         email,
@@ -19,7 +24,11 @@ const SignUpPage: NextPage = () => {
             await firebase
                 .auth()
                 .createUserWithEmailAndPassword(email, password);
+            router.push("/login")
+
+            showNotification("User was successfully Signed in, Please Login to continue", "success")
         } catch (e) {
+            showNotification("Something went wrong, Please try again later", "error")
             console.error(e);
         } finally {
             setLoading(false);
@@ -37,6 +46,10 @@ const SignUpPage: NextPage = () => {
 
             // The signed-in user info.
             var user = result.user;
+            router.push("/login")
+
+            showNotification("User was successfully Signed in, Please Login to continue", "success")
+
 
             // ...
         }).catch(function (error) {
@@ -47,6 +60,7 @@ const SignUpPage: NextPage = () => {
             var email = error.email;
             // The firebase.auth.AuthCredential type that was used.
             var credential = error.credential;
+            showNotification("Something went wrong, Please try again later", "error")
             // ...
         }).finally(() => { setLoading(false) })
 
