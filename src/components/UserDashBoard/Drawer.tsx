@@ -90,7 +90,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
         {
             label: "Update Info",
             icon: <InfoIcon />,
-            onClick: () => { router.push("/protectedPages/dashboard") }
+            onClick: () => { router.push("/protectedPages/updateProfile") }
         },
         {
             label: "Leader-Board",
