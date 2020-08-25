@@ -8,6 +8,8 @@ import { loginMutation } from "../__generated__/loginMutation.graphql";
 import { useRouter } from "next/dist/client/router";
 import { useCustomNotification } from "../components/App/useNotification";
 import cookie from "js-cookie";
+import LinearLoader from "../components/App/LinearLoader";
+import Loader from "../components/App/Loader";
 
 const mutation = graphql`
     mutation loginMutation($idToken: String!) {
@@ -51,6 +53,7 @@ const Login: NextPage = () => {
 
 
     const onGoogleLogin = async () => {
+        setLoading(true)
         var provider = new firebase.auth.GoogleAuthProvider();
         const result = firebase.auth().signInWithPopup(provider)
         const id = await (await result).user.getIdToken()
@@ -65,6 +68,7 @@ const Login: NextPage = () => {
                 idToken: idToken,
             },
         });
+
         cookie.set("authorization", mutationResult.createUserSession.cookie, {
             // expires: 6.048e8,
             // sameSite: "strict"
@@ -75,12 +79,15 @@ const Login: NextPage = () => {
             router.push("/protectedPages/dashboard")
         }
         else router.push("/signUp/completeDetails");
+        setLoading(false)
 
     }
 
 
 
-    return (
+    return (<>
+        <LinearLoader loading={loading} />
+
         <FormPage
             loading={loading}
             title="Log in to megatreopuz"
@@ -91,7 +98,7 @@ const Login: NextPage = () => {
             googleTitle={"Login With Google"}
         >
             <LoginForm onSubmit={onSubmit} />
-        </FormPage>
+        </FormPage></>
     );
 };
 
