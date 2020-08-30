@@ -79,7 +79,7 @@ const SignUpPage: NextPage = () => {
                 onSubmit={async (values) => {
                     setLoading(true);
                     try {
-                        await mutate({
+                        const result = await mutate({
                             variables: {
                                 input: {
                                     college: values.college,
@@ -91,8 +91,13 @@ const SignUpPage: NextPage = () => {
                                 },
                             },
                         });
+
+                        if (result.createLocalUser.successful) {
+                            router.push("/protectedPages/dashboard")
+                        }
                     } catch (e) {
-                        showNotification(e, "error")
+                        showNotification("Unable to create Player", "error")
+
                     } finally {
                         setLoading(false);
                     }
