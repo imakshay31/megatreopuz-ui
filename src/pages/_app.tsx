@@ -6,8 +6,8 @@ import { useIsUserLoggedIn } from "./../utils"
 import { Environment, QueryRenderer } from "react-relay";
 import { AppWrapperQuery, AppWrapperQueryResponse } from "../__generated__/AppWrapperQuery.graphql";
 import { useRouter } from "next/dist/client/router";
-import { getEnvironment } from "../components/Relay/environment"
-//import 'react-toastify/dist/ReactToastify.css';
+import { makeEnvironment } from "../components/Relay/environment"
+import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import Loader from "../components/App/Loader";
 import { useCustomNotification } from "../components/App/useNotification";
@@ -37,21 +37,27 @@ function CustomApp(props: AppProps): React.ReactElement {
     const { Component, pageProps } = props;
 
     const router = useRouter();
-    const env = React.useRef<Environment>(null);
-    if (env.current === null) env.current = getEnvironment();
-
+    const paths = router.route.split("/");
+    const first = paths[1];
+    const second = paths[2];
+    console.log(first)
 
     const [loading, setLoading] = React.useState<boolean>(false);
     const showNotification = useCustomNotification()
-
+    const environment: Environment | null = React.useMemo(() => {
+        if (first === "protectedPages" || "login")
+            return makeEnvironment();
+        return null;
+    }, [first, second]);
 
 
     return (
         <AppWrapper>
-            <RelayEnvironmentProvider environment={getEnvironment()}>
+
+            <RelayEnvironmentProvider environment={environment}>
                 {!useIsUserLoggedIn(router.route.split("/")[1]) ? <Component {...pageProps} /> :
                     <QueryRenderer<AppWrapperQuery>
-                        environment={getEnvironment()}
+                        environment={environment}
                         query={query}
                         variables={{}}
                         render={

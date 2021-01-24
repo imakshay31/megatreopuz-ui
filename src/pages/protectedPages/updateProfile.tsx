@@ -1,8 +1,8 @@
 import React from "react";
 import { NextPage } from "next";
-import { Container } from "next/app";
+
 import { Formik, Form, Field, FieldProps } from "formik";
-import { ListItem, List, ListItemAvatar, Avatar, ListItemText, Typography, TextField, Box, Button, Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
+import { ListItem, List, ListItemAvatar, Avatar, ListItemText, Typography, TextField, Box, Button, Card, CardHeader, CardContent, CardActions, Paper, Grid, Container } from "@material-ui/core";
 import { commit } from "../../components/Relay/mutations/UpdateUserMutation"
 import { UserUpdateInput } from "../../__generated__/UpdateUserMutation.graphql"
 import Drawer from "../../components/UserDashBoard/Drawer"
@@ -26,11 +26,8 @@ import Username, { UsernameProps } from "../../components/SignUp/username";
 const useStyles = makeStyles((theme: Theme) => ({
     section: {
         minHeight: "100vh",
-        backgroundColor:
-            theme.palette.type === "dark"
-                ? theme.palette.primary.light
-                : theme.palette.primary.dark,
-        backgroundImage: `url("/1.jpg")`,
+
+
         backgroundAttachment: `fixed`,
         backgroundSize: `cover`,
         display: "flex",
@@ -64,6 +61,21 @@ const useStyles = makeStyles((theme: Theme) => ({
         opacity: 0.9,
         width: "80%",
         margin: "auto"
+    },
+    image: {
+        width: "90%",
+        marginLeft: "auto",
+        marginRight: "auto"
+    },
+    main: {
+        height: "100vh"
+    },
+    heading: {
+        width: "fit-content",
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(10)
     }
 }));
 
@@ -205,135 +217,256 @@ const Profile: NextPage<ProtectedPageProps> = ({ viewer, refetch, ...props }) =>
     return <section className={classes.section}>
         <LinearLoader loading={loading} />
         <Drawer name={viewer.name} username={viewer.userName} />
-        <Box >
-            <Card className={classes.card}>
-                <CardHeader
-                    title={<Typography
+        <Container className={classes.main}><Box className={classes.heading}>
+            <Typography variant="h2">Update Your Megatreopuz Profile</Typography></Box>
+            <Grid container>
+                <Grid xs={6} item>
+                    <Box>
+                        <img src="/update.png" className={classes.image}></img>
+                    </Box>
+                </Grid>
+                <Grid xs={6} item>
+                    <Formik
+                        validationSchema={validationSchema}
+                        onSubmit={(values) => handleSubmit(values)}
+                        initialValues={initialValues}>
+                        <Form id="updateform">
+                            <Field name="name">
+                                {({
+                                    field,
+                                    meta,
+                                }: FieldProps<typeof initialValues["name"]>) => (
+                                        <TextField
+                                            fullWidth
+                                            id="name-input"
+                                            label="Name"
+                                            required
+                                            {...field}
+                                            error={!!(meta.touched && meta.error)}
+                                            helperText={meta.touched ? meta.error : ""}
+                                        />
+                                    )}
+                            </Field>
+                            <Field name="userName" validate={validateUsername}>
+                                {({
+                                    field,
+                                    meta,
+                                }: FieldProps<typeof initialValues["userName"]>) => (
+                                        <Username
+                                            fullWidth
+                                            error={!!(meta.touched && meta.error)}
+                                            helperText={meta.touched && meta.error}
+                                            state={usernameState}
+                                            {...field}
+                                        />
+                                    )}
+                            </Field>
+                            <Field name="year">
+                                {({
+                                    field,
+                                    meta,
+                                }: FieldProps<typeof initialValues["year"]>) => (
+                                        <TextField
+                                            fullWidth
+                                            type="number"
+                                            id="year-input"
+                                            label="Year"
+                                            required
+                                            {...field}
+                                            error={!!(meta.touched && meta.error)}
+                                            helperText={meta.touched ? meta.error : ""}
+                                        />
+                                    )}
+                            </Field>
+                            <Field name="country">
+                                {({
+                                    field,
+                                    meta,
+                                }: FieldProps<typeof initialValues["country"]>) => (
+                                        <TextField
+                                            fullWidth
+                                            id="college-input"
+                                            label="Country"
+                                            required
+                                            {...field}
+                                            error={!!(meta.touched && meta.error)}
+                                            helperText={meta.touched ? meta.error : ""}
+                                        />
+                                    )}
+                            </Field>
+                            <Field name="college">
+                                {({
+                                    field,
+                                    meta,
+                                }: FieldProps<typeof initialValues["college"]>) => (
+                                        <TextField
+                                            fullWidth
+                                            id="college-input"
+                                            label="Colllege"
+                                            required
+                                            {...field}
+                                            error={!!(meta.touched && meta.error)}
+                                            helperText={meta.touched ? meta.error : ""}
+                                        />
+                                    )}
+                            </Field>
+                            <Field name="phone">
+                                {({
+                                    field,
+                                    meta,
+                                }: FieldProps<typeof initialValues["phone"]>) => (
+                                        <TextField
+                                            fullWidth
+                                            id="phone-input"
+                                            label="Phone"
+                                            required
+                                            {...field}
+                                            error={!!(meta.touched && meta.error)}
+                                            helperText={meta.touched ? meta.error : ""}
+                                        />
+                                    )}
+                            </Field>
 
-                        align="center"
-                        variant="h4">
-                        Update Your Megatreopuz Profile Info
+                        </Form>
+
+                    </Formik>
+                    <Button type="submit" form="updateform" variant="contained" color="primary">Update</Button>
+                </Grid>
+
+            </Grid>
+
+            {/* <Paper elevation={3} variant="elevation" className={classes.card}>
+                <Card >
+                    <CardHeader
+                        title={<Typography
+
+                            align="center"
+                            variant="h4">
+                            Update Your Megatreopuz Profile Info
                             </Typography>
 
-                    }
-                    subheader={
-                        <Typography
-                            component="h1"
-                            align="center"
-                            variant="subtitle2">
-                            Lorem Ipsum
+                        }
+                        subheader={
+                            <Typography
+                                component="h1"
+                                align="center"
+                                variant="subtitle2">
+                                Lorem Ipsum
                                 </Typography>
-                    }></CardHeader>
-                <CardContent><Formik
-                    validationSchema={validationSchema}
-                    onSubmit={(values) => handleSubmit(values)}
-                    initialValues={initialValues}>
-                    <Form id="updateform">
-                        <Field name="name">
-                            {({
-                                field,
-                                meta,
-                            }: FieldProps<typeof initialValues["name"]>) => (
-                                    <TextField
-                                        fullWidth
-                                        id="name-input"
-                                        label="Name"
-                                        required
-                                        {...field}
-                                        error={!!(meta.touched && meta.error)}
-                                        helperText={meta.touched ? meta.error : ""}
-                                    />
-                                )}
-                        </Field>
-                        <Field name="userName" validate={validateUsername}>
-                            {({
-                                field,
-                                meta,
-                            }: FieldProps<typeof initialValues["userName"]>) => (
-                                    <Username
-                                        fullWidth
-                                        error={!!(meta.touched && meta.error)}
-                                        helperText={meta.touched && meta.error}
-                                        state={usernameState}
-                                        {...field}
-                                    />
-                                )}
-                        </Field>
-                        <Field name="year">
-                            {({
-                                field,
-                                meta,
-                            }: FieldProps<typeof initialValues["year"]>) => (
-                                    <TextField
-                                        fullWidth
-                                        type="number"
-                                        id="year-input"
-                                        label="Year"
-                                        required
-                                        {...field}
-                                        error={!!(meta.touched && meta.error)}
-                                        helperText={meta.touched ? meta.error : ""}
-                                    />
-                                )}
-                        </Field>
-                        <Field name="country">
-                            {({
-                                field,
-                                meta,
-                            }: FieldProps<typeof initialValues["country"]>) => (
-                                    <TextField
-                                        fullWidth
-                                        id="college-input"
-                                        label="Country"
-                                        required
-                                        {...field}
-                                        error={!!(meta.touched && meta.error)}
-                                        helperText={meta.touched ? meta.error : ""}
-                                    />
-                                )}
-                        </Field>
-                        <Field name="college">
-                            {({
-                                field,
-                                meta,
-                            }: FieldProps<typeof initialValues["college"]>) => (
-                                    <TextField
-                                        fullWidth
-                                        id="college-input"
-                                        label="Colllege"
-                                        required
-                                        {...field}
-                                        error={!!(meta.touched && meta.error)}
-                                        helperText={meta.touched ? meta.error : ""}
-                                    />
-                                )}
-                        </Field>
-                        <Field name="phone">
-                            {({
-                                field,
-                                meta,
-                            }: FieldProps<typeof initialValues["phone"]>) => (
-                                    <TextField
-                                        fullWidth
-                                        id="phone-input"
-                                        label="Phone"
-                                        required
-                                        {...field}
-                                        error={!!(meta.touched && meta.error)}
-                                        helperText={meta.touched ? meta.error : ""}
-                                    />
-                                )}
-                        </Field>
+                        }></CardHeader>
+                    <CardContent>
 
-                    </Form>
+                    </CardContent>
+                    <CardActions className={classes.action}> <Button type="submit" form="updateform" variant="contained" color="primary">Update</Button></CardActions>
 
-                </Formik></CardContent>
-                <CardActions className={classes.action}> <Button type="submit" form="updateform" variant="contained" color="primary">Update</Button></CardActions>
-
-            </Card>
-
-        </Box>
+                </Card>
+            </Paper> */}
+        </Container>
     </section>
 }
 
 export default Profile
+{/* <Formik
+validationSchema={validationSchema}
+onSubmit={(values) => handleSubmit(values)}
+initialValues={initialValues}>
+<Form id="updateform">
+    <Field name="name">
+        {({
+            field,
+            meta,
+        }: FieldProps<typeof initialValues["name"]>) => (
+                <TextField
+
+                    id="name-input"
+                    label="Name"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ""}
+                />
+            )}
+    </Field>
+    <Field name="userName" validate={validateUsername}>
+        {({
+            field,
+            meta,
+        }: FieldProps<typeof initialValues["userName"]>) => (
+                <Username
+
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched && meta.error}
+                    state={usernameState}
+                    {...field}
+                />
+            )}
+    </Field>
+    <Field name="year">
+        {({
+            field,
+            meta,
+        }: FieldProps<typeof initialValues["year"]>) => (
+                <TextField
+
+                    type="number"
+                    id="year-input"
+                    label="Year"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ""}
+                />
+            )}
+    </Field>
+    <Field name="country">
+        {({
+            field,
+            meta,
+        }: FieldProps<typeof initialValues["country"]>) => (
+                <TextField
+
+                    id="college-input"
+                    label="Country"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ""}
+                />
+            )}
+    </Field>
+    <Field name="college">
+        {({
+            field,
+            meta,
+        }: FieldProps<typeof initialValues["college"]>) => (
+                <TextField
+
+                    id="college-input"
+                    label="Colllege"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ""}
+                />
+            )}
+    </Field>
+    <Field name="phone">
+        {({
+            field,
+            meta,
+        }: FieldProps<typeof initialValues["phone"]>) => (
+                <TextField
+
+                    id="phone-input"
+                    label="Phone"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ""}
+                />
+            )}
+    </Field>
+
+</Form>
+
+</Formik> */}

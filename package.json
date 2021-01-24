@@ -6,7 +6,7 @@
     "get-schema": "get-graphql-schema https://server.istemanit.in/graphql > schema.graphql",
     "relay": "npm run get-schema && relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx --language typescript --artifactDirectory ./src/__generated__",
     "commit": "commit",
-    "dev": "NODE_OPTIONS='--inspect' next dev -p 8080",
+    "dev": "next",
     "build": "next build",
     "start": "next start",
     "test": "jest tests/*.test.ts"

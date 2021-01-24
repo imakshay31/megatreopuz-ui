@@ -74,11 +74,11 @@ const Login: NextPage = () => {
             },
         });
 
-        // document.cookie = `authorization=${mutationResult.createUserSession.cookie}`
-        // cookie.set("authorization", mutationResult.createUserSession.cookie, {
-        //     // expires: 6.048e8,
-        //     // sameSite: "strict"
-        // });
+        document.cookie = `authorization=${mutationResult.createUserSession.cookie}`
+        cookie.set("authorization", mutationResult.createUserSession.cookie, {
+            // expires: 6.048e8,
+            // sameSite: "strict"
+        });
 
         if (mutationResult.createUserSession.initialised) {
             showNotification("User was Successfully Logged In", "success")
