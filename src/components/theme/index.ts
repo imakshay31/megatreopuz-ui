@@ -44,6 +44,23 @@ export function toggleMode(
 ): void {
   setTheme((oldTheme) => {
     return createMuiTheme({
+      typography: {
+        fontFamily: [
+          "Nunito",
+          "Montserrat",
+          "Roboto",
+          "sans-serif",
+          "Arial",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(","),
+      },
       props: themeProps,
       palette: {
         primary: {
