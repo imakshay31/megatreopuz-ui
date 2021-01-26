@@ -34,7 +34,10 @@ const DashboardImg: React.FC<props> = ({ name }) => {
       <Box mt={5} mb={5} className={classes.header}>
         <Grid container justify="flex-start" alignItems="center">
           <Grid item sm={4} alignItems="center">
-            <img src="/dashboard.png" className={classes.dashboardImg}></img>
+            <img
+              src="/mega-dashboard.svg"
+              className={classes.dashboardImg}
+            ></img>
           </Grid>
           <Grid item sm={8}>
             <Typography variant="h4">
