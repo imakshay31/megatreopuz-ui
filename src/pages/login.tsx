@@ -79,7 +79,7 @@ const Login: NextPage = () => {
     if (mutationResult.createUserSession.initialised) {
       showNotification("User was Successfully Logged In", "success");
       router.push("/dashboard");
-    } else router.push("/signUp/completeDetails");
+    } else router.push("/signup/completeDetails");
     setLoading(false);
   };
 

@@ -10,12 +10,13 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Box, Fade, Grid, Link, useMediaQuery } from "@material-ui/core";
+import { Box, Grid, Link, useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
 import NavbarHeader from "../components/navbarheader";
-import ThemeToggleButton from "../components/theme/modeToggle";
+// import ThemeToggleButton from "../components/theme/modeToggle";
 import { useRouter } from "next/router";
-import { url } from "inspector";
+// import { url } from "inspector";
+import Header from "../components/header";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -152,43 +153,7 @@ const Landing: React.FC = () => {
     <>
       <NavbarHeader open={open} setOpen={setOpen} />
       <div className={classes.root} onClick={() => setOpen(false)}>
-        <Box padding={4} className={classes.header}>
-          <Box className={classes.logo}>
-            <img
-              style={{ cursor: "pointer" }}
-              src={
-                theme.palette.type === "light"
-                  ? "/megatreopuz.png"
-                  : "/megatreopuz(white).png"
-              }
-              height="120px"
-              width="150px"
-              alt="logo"
-              onClick={() => router.push("/")}
-            />
-          </Box>
-          <Box display="flex" alignItems="center" justifyContent="center">
-            <Fade in={true}>
-              <Box className={classes.darkTheme}>
-                <ThemeToggleButton />
-              </Box>
-            </Fade>
-            <Button
-              variant="contained"
-              onClick={() => router.push("/login")}
-              className={classes.menuBtn}
-            >
-              Login
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => router.push("/signUp/local")}
-              className={classes.menuBtn}
-            >
-              Sign up
-            </Button>
-          </Box>
-        </Box>
+        <Header />
         <Box className={classes.mobileDrawer}>
           <IconButton
             edge="start"
@@ -225,9 +190,7 @@ const Landing: React.FC = () => {
                 </Typography>
               </Box>
               <Box className={classes.flexColumn} lineHeight={2}>
-                <Btn onClick={() => router.push("/signUp/local")}>
-                  Register Now
-                </Btn>
+                <Btn onClick={() => router.push("/signup")}>Register Now</Btn>
                 <Link
                   target="_blank"
                   href="https://drive.google.com/file/d/18fYq_uSXg76WQ4Ov6BTZ4rjJFkwTXThV/view?usp=sharing"
