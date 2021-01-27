@@ -59,11 +59,15 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
     <div className={classes.root}>
       {/* <Drawer name={viewer.name} username={viewer.userName} /> */}
       <CssBaseline />
-      <CustomDrawer name={viewer.name} username={viewer.userName} />
+      <CustomDrawer
+        name={viewer.name}
+        username={viewer.userName}
+        page={"Dashboard"}
+      />
       <main className={classes.main}>
         <DashboardImg name={viewer.name} />
         <Grid container justify="center" spacing={3}>
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={5} md={6} xs={12}>
             <CustomCard
               Icon={FaceIcon}
               color={"#fb8c00"}
@@ -76,7 +80,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
             />
           </Grid>
           {alert}
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={5} md={6} xs={12}>
             <CustomCard
               Icon={BrushIcon}
               color={"#2196F3"}
@@ -86,7 +90,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
               caption={"Shows total number of attempts made by you in Contest"}
             />
           </Grid>
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={5} md={6} xs={12}>
             <CustomCard
               Icon={SpellcheckIcon}
               color={"#55B05D"}
@@ -96,7 +100,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
               caption={"Shows how much questions you have done correctly"}
             />
           </Grid>
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={5} md={6} xs={12}>
             <CustomCard
               Icon={AccessAlarmsIcon}
               color={"#E7403B"}

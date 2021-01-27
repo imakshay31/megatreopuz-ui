@@ -225,7 +225,11 @@ const Profile: NextPage<ProtectedPageProps> = ({
     <section className={classes.section}>
       <LinearLoader loading={loading} />
       {/* <Drawer name={viewer.name} username={viewer.userName} /> */}
-      <CustomDrawer name={viewer.name} username={viewer.userName} />
+      <CustomDrawer
+        name={viewer.name}
+        username={viewer.userName}
+        page={"Profile"}
+      />
       <Container className={classes.main}>
         <Box
           className={classes.heading}
@@ -233,7 +237,9 @@ const Profile: NextPage<ProtectedPageProps> = ({
           alignItems="center"
           justifyContent="center"
         >
-          <Typography variant="h2">Update Your Profile</Typography>
+          <Typography variant="h3" align="center">
+            Update Your Profile
+          </Typography>
         </Box>
         <Grid container>
           <Grid xs={12} md={5} item>

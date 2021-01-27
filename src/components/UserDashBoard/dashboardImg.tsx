@@ -16,9 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     dashboardImg: {
-      width: "80%",
+      width: "60%",
       [theme.breakpoints.down("sm")]: {
         width: "40%",
+        marginBottom: theme.spacing(2),
       },
     },
   })
@@ -32,18 +33,25 @@ const DashboardImg: React.FC<props> = ({ name }) => {
   return (
     <div className={classes.root}>
       <Box mt={5} mb={5} className={classes.header}>
-        <Grid container justify="flex-start" alignItems="center">
-          <Grid item sm={4} alignItems="center">
+        <Grid container justify="center" alignItems="center">
+          <Grid
+            container
+            item
+            xs={12}
+            sm={6}
+            alignItems="center"
+            justify="center"
+          >
             <img
               src="/mega-dashboard.svg"
               className={classes.dashboardImg}
             ></img>
           </Grid>
-          <Grid item sm={8}>
+          <Grid item sm={6}>
             <Typography variant="h4">
               <b>Hello, {name[0].toUpperCase() + name.substring(1)}</b>
             </Typography>
-            <Typography>Welcome to your ChimeraX dashboard</Typography>
+            <Typography>Welcome to your Megatreopuz dashboard</Typography>
           </Grid>
         </Grid>
       </Box>

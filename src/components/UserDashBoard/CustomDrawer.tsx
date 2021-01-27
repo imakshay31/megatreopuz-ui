@@ -107,9 +107,10 @@ const useStyles = makeStyles((theme: Theme) =>
 interface DrawerProps {
   name: string;
   username: string;
+  page: string;
 }
 
-const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
+const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openAnchor = Boolean(anchorEl);
@@ -191,7 +192,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
-            Dashboard
+            {page}
           </Typography>
           <div>
             <IconButton
@@ -218,8 +219,17 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
               open={openAnchor}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={() => router.push("/dashboard/updateProfile")}>
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  cookie.remove("authorization");
+                  router.push("/");
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -246,7 +256,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
             justifyContent="center"
             flexDirection="column"
           >
-            <Avatar>{name.charAt(0)}</Avatar>
+            <Avatar>{name[0].toUpperCase()}</Avatar>
             <Fade in={open}>
               <Typography variant="subtitle2">{username}</Typography>
             </Fade>
