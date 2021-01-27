@@ -1,8 +1,9 @@
 import React from "react";
 import { Form, FormikFormProps, Formik, Field, FieldProps } from "formik";
 import * as yup from "yup";
-import { TextField } from "@material-ui/core";
+import { TextField , Link as MuiLink } from "@material-ui/core";
 import PasswordInput from "../passwordInput";
+import Link from "next/link";
 
 const initialValues = {
     email: "",
@@ -66,6 +67,15 @@ const SignUpLocalForm: React.FC<Props> = ({ formProps, onSubmit }) => {
                         />
                     )}
                 </Field>
+                <Link href="/login">
+                        <MuiLink
+                            href="/login"
+                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                                e.stopPropagation();
+                            }}>
+                            {"Already have an account? Login"}
+                        </MuiLink>
+                </Link>
             </Form>
         </Formik>
     );

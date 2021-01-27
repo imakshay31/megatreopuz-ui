@@ -15,7 +15,7 @@ export const themeProps: ThemeOptions["props"] = {
 
 export const defaultPrimary = blue[500];
 export const defaultSecondary = orange[500];
-export const defaultMode = "dark";
+export const defaultMode = "light";
 export interface ThemeContext {
   mode: ThemeOptions["palette"]["type"];
   primary: SimplePaletteColorOptions["main"];
@@ -44,6 +44,23 @@ export function toggleMode(
 ): void {
   setTheme((oldTheme) => {
     return createMuiTheme({
+      typography: {
+        fontFamily: [
+          "Nunito",
+          "Montserrat",
+          "Roboto",
+          "sans-serif",
+          "Arial",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(","),
+      },
       props: themeProps,
       palette: {
         primary: {

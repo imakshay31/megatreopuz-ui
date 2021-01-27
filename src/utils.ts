@@ -12,5 +12,5 @@ export function rgb2hex(rgb: string): string {
 
 export const useIsUserLoggedIn = (first: string) =>
   React.useMemo(() => {
-    return first === "protectedPages";
+    return first === "dashboard";
   }, [first]);
