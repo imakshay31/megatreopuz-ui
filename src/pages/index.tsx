@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     body: {
-      minHeight: "80vh",
+      minHeight: "75vh",
     },
     typo: {
       color: theme.palette.type === "light" ? "#1976D2" : "white",
@@ -126,17 +126,17 @@ const VectorImg = () => {
     return (
       <Box>
         <Image
-          src="/prize.svg"
+          src="/mega-quiz.svg"
           alt="logo"
           width={window.innerWidth}
-          height={window.innerWidth / 1.74}
+          height={window.innerWidth / 1.57}
         />
       </Box>
     );
   }
   return (
     <Box>
-      <Image src="/prize.svg" alt="logo" width={800} height={460} />
+      <Image src="/mega-quiz.svg" alt="logo" width={600} height={382} />
     </Box>
   );
 };
@@ -189,12 +189,9 @@ const Landing: React.FC = () => {
                   13 - 19 feb 2021
                 </Typography>
               </Box>
-              <Box className={classes.flexColumn} lineHeight={2}>
+              <Box className={classes.flexColumn}>
                 <Btn onClick={() => router.push("/signup")}>Register Now</Btn>
-                <Link
-                  target="_blank"
-                  href="https://drive.google.com/file/d/18fYq_uSXg76WQ4Ov6BTZ4rjJFkwTXThV/view?usp=sharing"
-                >
+                <Link target="_blank" href="#">
                   How to get registered?
                 </Link>
               </Box>
@@ -280,8 +277,8 @@ const Landing: React.FC = () => {
             item
             xs={12}
             md={8}
-            justify="flex-end"
-            alignItems="flex-end"
+            justify="center"
+            alignItems="center"
           >
             <VectorImg />
           </Grid>
