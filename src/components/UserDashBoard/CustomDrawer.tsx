@@ -166,7 +166,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
       icon: <ExitToAppIcon />,
       onClick: () => {
         cookie.remove("authorization");
-        router.push("/login");
+        router.push("/");
       },
     },
   ];

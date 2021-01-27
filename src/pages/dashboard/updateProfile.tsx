@@ -84,11 +84,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100vh",
   },
   heading: {
-    width: "fit-content",
+    // width: "fit-content",
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: theme.spacing(10),
     marginBottom: theme.spacing(10),
+    // fontFamily: "sans-serif",
+  },
+  submit_button: {
+    margin: "auto",
+    width: "60%",
   },
 }));
 
@@ -120,7 +125,7 @@ const Profile: NextPage<ProtectedPageProps> = ({
   const environment = useRelayEnvironment();
   const [loading, setLoading] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
-
+  const theme = useTheme();
   const showNotification = useCustomNotification();
 
   const initialValues: UserUpdateInput = {
@@ -222,16 +227,28 @@ const Profile: NextPage<ProtectedPageProps> = ({
       {/* <Drawer name={viewer.name} username={viewer.userName} /> */}
       <CustomDrawer name={viewer.name} username={viewer.userName} />
       <Container className={classes.main}>
-        <Box className={classes.heading}>
-          <Typography variant="h2">Update Your Megatreopuz Profile</Typography>
+        <Box
+          className={classes.heading}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography variant="h2">Update Your Profile</Typography>
         </Box>
         <Grid container>
-          <Grid xs={6} item>
+          <Grid xs={12} md={5} item>
             <Box>
-              <img src="/update.png" className={classes.image}></img>
+              <img
+                src={
+                  theme.palette.type === "light"
+                    ? "/updateDark.png"
+                    : "/updateDark.png"
+                }
+                className={classes.image}
+              ></img>
             </Box>
           </Grid>
-          <Grid xs={6} item>
+          <Grid xs={12} md={7} item>
             <Formik
               validationSchema={validationSchema}
               onSubmit={(values) => handleSubmit(values)}
@@ -335,14 +352,23 @@ const Profile: NextPage<ProtectedPageProps> = ({
                 </Field>
               </Form>
             </Formik>
-            <Button
-              type="submit"
-              form="updateform"
-              variant="contained"
-              color="primary"
+            <Box
+              mt={2}
+              mb={2}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
             >
-              Update
-            </Button>
+              <Button
+                className={classes.submit_button}
+                type="submit"
+                form="updateform"
+                variant="contained"
+                color="primary"
+              >
+                Update
+              </Button>
+            </Box>
           </Grid>
         </Grid>
 
