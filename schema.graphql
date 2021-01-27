@@ -4,6 +4,12 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+input AnswerQuestionInput {
+  email: String!
+  answer: String!
+  questionNo: Float
+}
+
 type Empty {
   successful: Boolean!
 }
@@ -12,11 +18,18 @@ type Mutation {
   createUserSession(idToken: String!): UserInitStatus!
   createLocalUser(input: UserCreateInput!): Empty!
   updateLocalUser(input: UserUpdateInput!): Empty!
+  answerQuestion(input: AnswerQuestionInput!): Empty!
 }
 
 type Query {
   checkUsername(username: String!): UsernameAvailability!
   getPlayer: User!
+  getQuestion: Question!
+}
+
+type Question {
+  question: String!
+  questionNo: Int!
 }
 
 type User {
