@@ -89,7 +89,7 @@ const Login: NextPage = () => {
 
       <FormPage
         loading={loading}
-        title="Log in to megatreopuz"
+        title="Log in to Megatreopuz"
         formID="login-form"
         submitLabel="Login"
         googleButton

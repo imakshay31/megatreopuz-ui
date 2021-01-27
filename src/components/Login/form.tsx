@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { TextField, Link as MuiLink } from "@material-ui/core";
 import PasswordInput from "../passwordInput";
 import Link from "next/link";
+import Grid from '@material-ui/core/Grid';
 const initialValues = {
     email: "",
     password: "",
@@ -63,15 +64,31 @@ const LoginForm: React.FC<Props> = ({ formProps, onSubmit }) => {
                         />
                     )}
                 </Field>
-                <Link href="/requestReset">
-                    <MuiLink
-                        href="/requestReset"
-                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                            e.stopPropagation();
-                        }}>
-                        Reset password
-                    </MuiLink>
-                </Link>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="/requestReset">
+                        <MuiLink
+                            href="/requestReset"
+                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                                e.stopPropagation();
+                            }}>
+                            Reset password
+                        </MuiLink>
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/signUp/local">
+                        <MuiLink
+                            href="/signUp/local"
+                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                                e.stopPropagation();
+                            }}>
+                            {"Don't have an account? Sign Up"}
+                        </MuiLink>
+                    </Link>
+                  </Grid>
+                </Grid>
+                
             </Form>
         </Formik>
     );

@@ -71,7 +71,7 @@ const SignUpPage: NextPage = () => {
         <FormPage
             loading={loading}
             formID="local-sign-up"
-            title="Sign up for megatreopuz"
+            title="Sign up for Megatreopuz"
             submitLabel="Sign Up"
             googleButton={true}
             googleTitle="Sign Up with google"

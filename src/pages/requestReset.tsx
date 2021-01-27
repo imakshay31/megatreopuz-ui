@@ -27,7 +27,8 @@ const RequestReset: NextPage = () => {
             loading={loading}
             title="Request password reset"
             formID="request-reset-form"
-            submitLabel="Request Reset">
+            submitLabel="Request Reset"
+            backButton={true}>
             <RequestResetForm onSubmit={onSubmit} />
         </FormPage>
     );

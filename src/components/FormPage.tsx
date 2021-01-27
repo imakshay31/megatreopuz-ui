@@ -14,6 +14,7 @@ import {
     SvgIcon,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useRouter } from 'next/router';
 
 
 
@@ -57,6 +58,7 @@ interface Props {
     formID: string;
     disableSubmit?: boolean;
     googleButton?: boolean;
+    backButton?: boolean;
     googleTitle?: string;
     googleExec?: () => void
 }
@@ -70,6 +72,7 @@ const FormPage: React.FC<Props> = ({
     disableSubmit,
     googleButton,
     googleTitle,
+    backButton,
     googleExec
 }) => {
 
@@ -77,7 +80,7 @@ const FormPage: React.FC<Props> = ({
     const classes = useStyles();
     const theme = useTheme();
     const buttonDisabled = loading || disableSubmit;
-
+    const router = useRouter();
 
     return (
         <>
@@ -103,12 +106,18 @@ const FormPage: React.FC<Props> = ({
                                 <Typography
                                     component="h1"
                                     align="center"
-                                    variant="subtitle2">
+                                    variant="h5">
                                     {title}
                                 </Typography>
                             }></CardHeader>
                         <CardContent>{children}</CardContent>
                         <CardActions classes={{ root: classes.action }}>
+                            {backButton && <Button 
+                                onClick={() => { router.push('/login');}}
+                                variant="text">
+                                    Back
+                                </Button>
+                            }
                             <Button
                                 disabled={buttonDisabled}
                                 form={formID}
