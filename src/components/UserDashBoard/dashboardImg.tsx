@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: theme.spacing(2),
       },
     },
+    alignCenter: {
+      [theme.breakpoints.down("sm")]: {
+        textAlign: "center",
+      },
+    },
   })
 );
 interface props {
@@ -37,8 +42,9 @@ const DashboardImg: React.FC<props> = ({ name }) => {
           <Grid
             container
             item
+            lg={5}
+            md={6}
             xs={12}
-            sm={6}
             alignItems="center"
             justify="center"
           >
@@ -47,11 +53,13 @@ const DashboardImg: React.FC<props> = ({ name }) => {
               className={classes.dashboardImg}
             ></img>
           </Grid>
-          <Grid item sm={6}>
-            <Typography variant="h4">
+          <Grid item lg={5} md={6} xs={12}>
+            <Typography variant="h4" className={classes.alignCenter}>
               <b>Hello, {name[0].toUpperCase() + name.substring(1)}</b>
             </Typography>
-            <Typography>Welcome to your Megatreopuz dashboard</Typography>
+            <Typography className={classes.alignCenter}>
+              Welcome to your Megatreopuz dashboard
+            </Typography>
           </Grid>
         </Grid>
       </Box>

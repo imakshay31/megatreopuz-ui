@@ -101,6 +101,10 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
     },
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
   })
 );
 
@@ -202,7 +206,12 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
               onClick={handleMenu}
               color="inherit"
             >
-              <AccountCircle />
+              {/* <AccountCircle /> */}
+              <Avatar
+                alt="account"
+                src="/account.svg"
+                className={classes.small}
+              />
             </IconButton>
             <Menu
               id="menu-appbar"

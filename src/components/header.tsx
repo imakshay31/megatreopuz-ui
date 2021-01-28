@@ -67,11 +67,10 @@ const Header: React.FC = () => {
               style={{ cursor: "pointer" }}
               src={
                 theme.palette.type === "light"
-                  ? "/megatreopuz.png"
-                  : "/megatreopuz(white).png"
+                  ? "/megatreopuz.svg"
+                  : "/wmegatreopuz.svg"
               }
-              height="120px"
-              width="150px"
+              width="220px"
               alt="logo"
               onClick={() => router.push("/")}
             />
