@@ -191,7 +191,10 @@ const Landing: React.FC = () => {
               </Box>
               <Box className={classes.flexColumn}>
                 <Btn onClick={() => router.push("/signup")}>Register Now</Btn>
-                <Link target="_blank" href="#">
+                <Link
+                  // target="_blank"
+                  href="#"
+                >
                   How to get registered?
                 </Link>
               </Box>

@@ -247,8 +247,8 @@ const Profile: NextPage<ProtectedPageProps> = ({
               <img
                 src={
                   theme.palette.type === "light"
-                    ? "/updateDark.png"
-                    : "/updateDark.png"
+                    ? "/updateDark.svg"
+                    : "/updateWhite.svg"
                 }
                 className={classes.image}
               ></img>
