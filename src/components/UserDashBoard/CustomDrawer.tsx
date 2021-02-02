@@ -31,7 +31,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useRouter } from "next/dist/client/router";
 import cookie from "js-cookie";
-import { Avatar, Box, Fade, MenuItem, Menu } from "@material-ui/core";
+import { Avatar, Box, Fade, MenuItem, Menu, Tooltip } from "@material-ui/core";
 // import { Hidden} from "@material-ui/core";
 // import { name } from "faker";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -136,35 +136,35 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
   const icons = [
     {
       label: "Contest",
-      icon: <GamepadIcon />,
+      icon: <Tooltip title={"Contest"}><GamepadIcon /></Tooltip>,
       onClick: () => {
-        router.push("/dashboard");
+        router.push("/dashboard/contest");
       },
     },
     {
       label: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <Tooltip title={"Dash-Board"}><DashboardIcon /></Tooltip>,
       onClick: () => {
         router.push("/dashboard");
       },
     },
     {
       label: "Update Info",
-      icon: <InfoIcon />,
+      icon: <Tooltip title={"Update Info"}><InfoIcon /></Tooltip>,
       onClick: () => {
         router.push("/dashboard/updateProfile");
       },
     },
     {
       label: "Leader-Board",
-      icon: <ImportantDevicesIcon />,
+      icon: <Tooltip title={"Leader Board"}><ImportantDevicesIcon /></Tooltip>,
       onClick: () => {
-        router.push("/dashboard");
+        router.push("/dashboard/leaderboard");
       },
     },
     {
       label: "Log Out",
-      icon: <ExitToAppIcon />,
+      icon: <Tooltip title={"Log-out"}><ExitToAppIcon /></Tooltip>,
       onClick: () => {
         cookie.remove("authorization");
         router.push("/");

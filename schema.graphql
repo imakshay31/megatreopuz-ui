@@ -5,18 +5,30 @@ directive @specifiedBy(
 ) on SCALAR
 
 input AnswerQuestionInput {
-  email: String!
   answer: String!
   questionNo: Float
+  id: String!
+}
+
+input CreateQuestionInput {
+  answer: String!
+  imgUrl: String!
+  question: String!
+  questionNo: Float!
 }
 
 type Empty {
   successful: Boolean!
 }
 
+input GetMyProfileInput {
+  userId: String!
+}
+
 type Mutation {
   createUserSession(idToken: String!): UserInitStatus!
   createLocalUser(input: UserCreateInput!): Empty!
+  createQuestion(input: CreateQuestionInput!): Empty!
   updateLocalUser(input: UserUpdateInput!): Empty!
   answerQuestion(input: AnswerQuestionInput!): Empty!
 }
@@ -25,11 +37,19 @@ type Query {
   checkUsername(username: String!): UsernameAvailability!
   getPlayer: User!
   getQuestion: Question!
+  getLeaderBoard: [Users!]!
+  getMyProfileInfo(input: GetMyProfileInput!): RankInfo!
 }
 
 type Question {
   question: String!
   questionNo: Int!
+  id: String!
+}
+
+type RankInfo {
+  rank: Float!
+  totalParticipants: Float!
 }
 
 type User {
@@ -41,6 +61,8 @@ type User {
   email: String!
   country: String!
   year: Int!
+  totalAttempts: Int!
+  solvedQuestions: Int!
 }
 
 input UserCreateInput {
@@ -59,6 +81,13 @@ type UserInitStatus {
 
 type UsernameAvailability {
   available: Boolean!
+}
+
+type Users {
+  name: String!
+  questionAttempted: Float!
+  username: String!
+  lastAnsweredQuestionTime: String!
 }
 
 input UserUpdateInput {

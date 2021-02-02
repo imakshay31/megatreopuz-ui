@@ -277,7 +277,7 @@ const Profile: NextPage<ProtectedPageProps> = ({
                     />
                   )}
                 </Field>
-                <Field name="userName" validate={validateUsername}>
+                {/* <Field name="userName" validate={validateUsername}>
                   {({
                     field,
                     meta,
@@ -287,10 +287,11 @@ const Profile: NextPage<ProtectedPageProps> = ({
                       error={!!(meta.touched && meta.error)}
                       helperText={meta.touched && meta.error}
                       state={usernameState}
+                      disabled
                       {...field}
                     />
                   )}
-                </Field>
+                </Field> */}
                 <Field name="year">
                   {({
                     field,

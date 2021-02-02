@@ -30,6 +30,8 @@ export const query = graphql`
       country
       phone
       name
+      solvedQuestions
+      totalAttempts
     }
   }
 `;
@@ -61,36 +63,36 @@ function CustomApp(props: AppProps): React.ReactElement {
         {!useIsUserLoggedIn(router.route.split("/")[1]) ? (
           <Component {...pageProps} />
         ) : (
-          <QueryRenderer<AppWrapperQuery>
-            environment={environment}
-            query={query}
-            variables={{}}
-            render={({
-              error,
-              props,
-              retry,
-            }: {
-              error: Error;
-              props: AppWrapperQueryResponse;
-              retry: () => void;
-            }) => {
-              if (error) {
-                showNotification("Please login to Continue", "error");
-                return null;
-              } else if (props) {
-                return (
-                  <Component
-                    {...pageProps}
-                    viewer={props.getPlayer}
-                    refetch={retry}
-                  />
-                );
-              } else {
-                return <Loader loading={true} />;
-              }
-            }}
-          />
-        )}
+            <QueryRenderer<AppWrapperQuery>
+              environment={environment}
+              query={query}
+              variables={{}}
+              render={({
+                error,
+                props,
+                retry,
+              }: {
+                error: Error;
+                props: AppWrapperQueryResponse;
+                retry: () => void;
+              }) => {
+                if (error) {
+                  showNotification("Please login to Continue", "error");
+                  return null;
+                } else if (props) {
+                  return (
+                    <Component
+                      {...pageProps}
+                      viewer={props.getPlayer}
+                      refetch={retry}
+                    />
+                  );
+                } else {
+                  return <Loader loading={true} />;
+                }
+              }}
+            />
+          )}
       </RelayEnvironmentProvider>
     </AppWrapper>
   );

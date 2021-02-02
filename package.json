@@ -33,7 +33,7 @@
     "react-relay-network-modern": "^4.7.2",
     "react-relay-network-modern-ssr": "^1.4.0",
     "react-toastify": "^6.0.8",
-    "relay-hooks": "^3.5.0",
+    "relay-hooks": "^4.0.0-rc.1",
     "relay-runtime": "^9.1.0",
     "yup": "^0.29.1"
   },

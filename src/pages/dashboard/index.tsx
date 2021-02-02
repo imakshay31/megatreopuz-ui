@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import { Grid, CssBaseline } from "@material-ui/core";
+import { Grid, CssBaseline, Box } from "@material-ui/core";
 // import Drawer from "../../components/UserDashBoard/Drawer";
 import CustomCard from "../../components/App/card";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -9,9 +9,13 @@ import AccessAlarmsIcon from "@material-ui/icons/AccessAlarms";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import BrushIcon from "@material-ui/icons/Brush";
 import { ProtectedPageProps } from "../_app";
-// import Navbar from "../../components/navbar";
+import { useQuery, useRelayEnvironment } from 'relay-hooks';
+import query from "../../components/Relay/queries/GetProfileInfoQuery"
 import CustomDrawer from "../../components/UserDashBoard/CustomDrawer";
 import DashboardImg from "../../components/UserDashBoard/dashboardImg";
+import { GetProfileInfoQuery, GetProfileInfoQueryVariables } from "../../__generated__/GetProfileInfoQuery.graphql";
+import LoadingScreen from "../../components/App/QueryLoaderScreen";
+import ErrorComponent from "../../components/App/ErrorComponent";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +48,15 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       marginTop: theme.spacing(2),
     },
+    loading: {
+      // margin: "0",
+      marginLeft: "auto",
+      marginRight: "auto",
+      width: "100%",
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)"
+    },
     b: { width: "250px", marginLeft: "auto", marginRight: "auto" },
   })
 );
@@ -54,6 +67,15 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
   // ...props
 }) => {
   const classes = useStyles();
+  const vars: GetProfileInfoQueryVariables = { profileInput: { userId: viewer.id } }
+  const { data, error, retry, isLoading } = useQuery<GetProfileInfoQuery>(query, vars)
+
+  if (error) {
+    return <ErrorComponent />
+
+  }
+
+
 
   return (
     <div className={classes.root}>
@@ -64,7 +86,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
         username={viewer.userName}
         page={"Dashboard"}
       />
-      <main className={classes.main}>
+      {isLoading ? <Box className={classes.loading}><LoadingScreen loading={isLoading} /> </Box> : <main className={classes.main}>
         <DashboardImg name={viewer.name} />
         <Grid container justify="center" spacing={3}>
           <Grid item lg={5} md={6} xs={12}>
@@ -72,7 +94,8 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
               Icon={FaceIcon}
               color={"#fb8c00"}
               heading={"Rank"}
-              data={"2/400"}
+              data={data.getMyProfileInfo.rank === -1 ? "N/A" : `${data.getMyProfileInfo.rank + 1}/${data.getMyProfileInfo.totalParticipants}`
+              }
               unit={"position"}
               caption={
                 "Shows your rank among total number of participants in Contest"
@@ -85,7 +108,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
               Icon={BrushIcon}
               color={"#2196F3"}
               heading={"Total attempts"}
-              data={"5"}
+              data={viewer.totalAttempts.toString()}
               unit={"attempts"}
               caption={"Shows total number of attempts made by you in Contest"}
             />
@@ -95,7 +118,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
               Icon={SpellcheckIcon}
               color={"#55B05D"}
               heading={"Correct Questions"}
-              data={"5/25"}
+              data={`${viewer.solvedQuestions}/25`}
               unit={"questions"}
               caption={"Shows how much questions you have done correctly"}
             />
@@ -114,7 +137,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
           </Grid>
         </Grid>
       </main>
-    </div>
+      }    </div>
   );
 };
 
