@@ -69,7 +69,7 @@ const Login: NextPage = () => {
         idToken: idToken,
       },
     });
-    cookie.remove("authorization")
+    cookie.remove("authorization");
 
     cookie.set("authorization", mutationResult.createUserSession.cookie, {
       // expires: 6.048e8,

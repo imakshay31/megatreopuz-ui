@@ -35,6 +35,7 @@ import { Avatar, Box, Fade, MenuItem, Menu, Tooltip } from "@material-ui/core";
 // import { Hidden} from "@material-ui/core";
 // import { name } from "faker";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import { useCustomNotification } from "../App/useNotification";
 
 const drawerWidth = 240;
 
@@ -120,7 +121,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
   const openAnchor = Boolean(anchorEl);
   const classes = useStyles({ open });
   const router = useRouter();
-
+  const showNotification = useCustomNotification();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -140,38 +141,59 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
   const icons = [
     {
       label: "Contest",
-      icon: <Tooltip title={"Contest"}><GamepadIcon /></Tooltip>,
+      icon: (
+        <Tooltip title={"Contest"}>
+          <GamepadIcon />
+        </Tooltip>
+      ),
       onClick: () => {
         router.push("/dashboard/contest");
       },
     },
     {
       label: "Dashboard",
-      icon: <Tooltip title={"Dash-Board"}><DashboardIcon /></Tooltip>,
+      icon: (
+        <Tooltip title={"Dash-Board"}>
+          <DashboardIcon />
+        </Tooltip>
+      ),
       onClick: () => {
         router.push("/dashboard");
       },
     },
     {
       label: "Update Info",
-      icon: <Tooltip title={"Update Info"}><InfoIcon /></Tooltip>,
+      icon: (
+        <Tooltip title={"Update Info"}>
+          <InfoIcon />
+        </Tooltip>
+      ),
       onClick: () => {
         router.push("/dashboard/updateProfile");
       },
     },
     {
       label: "Leader-Board",
-      icon: <Tooltip title={"Leader Board"}><ImportantDevicesIcon /></Tooltip>,
+      icon: (
+        <Tooltip title={"Leader Board"}>
+          <ImportantDevicesIcon />
+        </Tooltip>
+      ),
       onClick: () => {
         router.push("/dashboard/leaderboard");
       },
     },
     {
       label: "Log Out",
-      icon: <Tooltip title={"Log-out"}><ExitToAppIcon /></Tooltip>,
+      icon: (
+        <Tooltip title={"Log-out"}>
+          <ExitToAppIcon />
+        </Tooltip>
+      ),
       onClick: () => {
         cookie.remove("authorization");
         router.push("/");
+        showNotification("Logout Succefully", "success");
       },
     },
   ];
@@ -235,6 +257,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
                 onClick={() => {
                   cookie.remove("authorization");
                   router.push("/");
+                  showNotification("Logout Succefully", "success");
                 }}
               >
                 Logout
