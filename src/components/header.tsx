@@ -10,7 +10,6 @@ import { Box, Fade } from "@material-ui/core";
 import NavbarHeader from "../components/navbarheader";
 import ThemeToggleButton from "../components/theme/modeToggle";
 import { useRouter } from "next/router";
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -43,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "none",
       },
     },
+    displayBtn: {
+      display: "none",
+    },
     darkTheme: {
       marginRight: theme.spacing(2),
       [theme.breakpoints.down("sm")]: {
@@ -57,6 +59,8 @@ const Header: React.FC = () => {
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const path = router.pathname;
+
   return (
     <>
       <NavbarHeader open={open} setOpen={setOpen} />
@@ -84,14 +88,22 @@ const Header: React.FC = () => {
             <Button
               variant="contained"
               onClick={() => router.push("/login")}
-              className={classes.menuBtn}
+              className={
+                path === "/login" || path === "/signup/completeDetails"
+                  ? classes.displayBtn
+                  : classes.menuBtn
+              }
             >
               Login
             </Button>
             <Button
               variant="contained"
               onClick={() => router.push("/signup")}
-              className={classes.menuBtn}
+              className={
+                path === "/signup" || path === "/signup/completeDetails"
+                  ? classes.displayBtn
+                  : classes.menuBtn
+              }
             >
               Sign up
             </Button>
