@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
       boxSizing: "border-box",
       flexGrow: 1,
-      background: `url('/bg.svg')`,
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
+      // background: `url('/bg.svg')`,
+      // backgroundRepeat: "no-repeat",
+      // backgroundSize: "cover",
     },
     header: {
       minHeight: "10vh",
@@ -186,7 +186,7 @@ const Landing: React.FC = () => {
             <Box className={classes.margin}>
               <Box marginBottom={5}>
                 <Typography variant="h5" align="center">
-                  13 - 19 feb 2021
+                  13 - 19 Feb 2021
                 </Typography>
               </Box>
               <Box className={classes.flexColumn}>
@@ -224,7 +224,7 @@ const Landing: React.FC = () => {
                       width="70px"
                     />
                     <Typography variant="h6">
-                      <b>₹ 15,000</b>
+                      <b>₹ 5,000</b>
                     </Typography>
                   </Box>
                 </Grid>
@@ -246,7 +246,7 @@ const Landing: React.FC = () => {
                       width="70px"
                     />
                     <Typography variant="h6">
-                      <b>₹ 10,000</b>
+                      <b>₹ 3,000</b>
                     </Typography>
                   </Box>
                 </Grid>
@@ -268,7 +268,7 @@ const Landing: React.FC = () => {
                       width="70px"
                     />
                     <Typography variant="h6">
-                      <b>₹ 5,000</b>
+                      <b>₹ 2,000</b>
                     </Typography>
                   </Box>
                 </Grid>
