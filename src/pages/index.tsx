@@ -191,12 +191,12 @@ const Landing: React.FC = () => {
               </Box>
               <Box className={classes.flexColumn}>
                 <Btn onClick={() => router.push("/signup")}>Register Now</Btn>
-                <Link
+                {/* <Link
                   // target="_blank"
                   href="#"
                 >
                   How to get registered?
-                </Link>
+                </Link> */}
               </Box>
             </Box>
             <Box className={classes.prize}>
