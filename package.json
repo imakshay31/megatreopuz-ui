@@ -25,6 +25,7 @@
     "formik": "^2.1.4",
     "js-cookie": "^2.2.1",
     "material-ui-color-picker": "^3.5.0",
+    "moment": "^2.29.1",
     "next": "^10.0.5",
     "react": "^16.13.1",
     "react-color": "^2.18.1",

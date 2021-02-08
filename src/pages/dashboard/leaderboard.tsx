@@ -143,11 +143,11 @@ const LeaderBoard: NextPage<ProtectedPageProps> = ({ viewer }) => {
                     <TableCell align="center">
                       <b>Rank</b>
                     </TableCell>
-                    <TableCell align="center">
+                    {/* <TableCell align="center">
                       <b>Name </b>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center">
-                      <b>User-Name </b>
+                      <b>Username </b>
                     </TableCell>
                     <TableCell align="center">
                       <b>Questions Solved</b>
@@ -158,7 +158,7 @@ const LeaderBoard: NextPage<ProtectedPageProps> = ({ viewer }) => {
                   {data.getLeaderBoard.map((row, index) => (
                     <TableRow key={index}>
                       <TableCell align="center">{index + 1}</TableCell>
-                      <TableCell align="center">{row.name}</TableCell>
+                      {/* <TableCell align="center">{row.name}</TableCell> */}
                       <TableCell align="center">{row.username}</TableCell>
                       <TableCell align="center">
                         {row.questionAttempted}

@@ -21,6 +21,10 @@ import {
   Card,
   CardActionArea,
   CardMedia,
+  Toolbar,
+  Dialog,
+  AppBar,
+  IconButton,
 } from "@material-ui/core";
 import { NextPage } from "next";
 import { ProtectedPageProps } from "../_app";
@@ -31,6 +35,8 @@ import { useQuery, useRelayEnvironment } from "relay-hooks";
 import AnswerQuestionMutation from "../../components/Relay/mutations/AnswerQuestionMutation";
 import { AnswerQuestionInput } from "../../__generated__/AnswerQuestionMutation.graphql";
 import LoadingScreen from "../../components/App/QueryLoaderScreen";
+import CloseIcon from "@material-ui/icons/Close";
+import Slide from "@material-ui/core/Slide";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -57,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
     borderRadius: theme.spacing(1 / 2),
     // border: `1px solid black`,
+    [theme.breakpoints.down("md")]: {
+      width: "80%",
+    },
   },
   nullText: {
     marginLeft: "auto",
@@ -88,13 +97,30 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1 / 4),
     borderColor: theme.palette.divider,
     padding: theme.spacing(2),
+    margin: theme.spacing(4),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(1),
+    },
   },
   img: {
     borderRadius: theme.spacing(1),
+    cursor: "pointer",
   },
-
   media: {
     height: 200,
+  },
+  dialogAppbar: {
+    position: "relative",
+  },
+  dialogTtitle: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  dialogImg: {
+    width: "50%",
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+    },
   },
 }));
 
@@ -126,17 +152,72 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
+const ImageDialog = (props) => {
+  const classes = useStyles();
+  const { data, onClose, open } = props;
+
+  const handleClose = () => {
+    onClose(false);
+  };
+
+  return (
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="image-dialog-title"
+      open={open}
+      fullScreen
+      TransitionComponent={Slide}
+    >
+      <AppBar className={classes.dialogAppbar}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.dialogTtitle}>
+            Question {data.getQuestion.questionNo}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+      <Paper elevation={0}>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <img
+            src={data.getQuestion.question}
+            alt="image"
+            className={classes.dialogImg}
+          />
+        </Box>
+      </Paper>
+    </Dialog>
+  );
+};
+
 const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
   const [localState, setLocalState] = React.useState("");
   const [helperText, setHelperText] = React.useState("");
   const [fail, SetFail] = React.useState(false);
   const env = useRelayEnvironment();
   const [next, setNext] = React.useState(true);
+  const [openImgDialog, setOpenImgDialog] = React.useState(false);
 
   const { data, error, retry, isLoading } = useQuery<GetQuestionQuery>(query);
 
   const classes = useStyles();
-  const handleClose = () => {};
+  const handleClose = () => {
+    //
+  };
+  const handleDialogOpen = () => {
+    setOpenImgDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenImgDialog(false);
+  };
 
   React.useEffect(() => {
     setHelperText("");
@@ -179,6 +260,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
         username={viewer.userName}
         page={"Contest"}
       />
+      <Toolbar />
       {Boolean(data) || isLoading ? (
         <Grid
           container
@@ -201,18 +283,24 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
                   <LoadingScreen loading={isLoading} />
                 </>
               ) : (
-                <Box m={4} className={classes.imageBox}>
+                <Box className={classes.imageBox}>
                   <Paper elevation={0}>
                     <Box>
                       <Image
                         layout={"responsive"}
-                        height={100}
-                        width={300}
+                        height={120}
+                        width={280}
                         src={data.getQuestion.question}
                         className={classes.img}
+                        onClick={handleDialogOpen}
                       />
                     </Box>
                   </Paper>
+                  <ImageDialog
+                    data={data}
+                    open={openImgDialog}
+                    onClose={handleDialogClose}
+                  />
                 </Box>
               )}
               {isLoading ? (
@@ -258,8 +346,9 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
       ) : (
         <Box mt={20} className={classes.nullText}>
           <Typography variant="h3" align="center">
-            That's All for now. Stay tuned for next questions. we will be back
-            soon
+            {/* That`&apos;`s All for now. Stay tuned for next questions. we will be
+            back soon */}
+            Contest will start soon.
           </Typography>
         </Box>
       )}

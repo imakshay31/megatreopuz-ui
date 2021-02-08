@@ -140,17 +140,6 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
 
   const icons = [
     {
-      label: "Contest",
-      icon: (
-        <Tooltip title={"Contest"}>
-          <GamepadIcon />
-        </Tooltip>
-      ),
-      onClick: () => {
-        router.push("/dashboard/contest");
-      },
-    },
-    {
       label: "Dashboard",
       icon: (
         <Tooltip title={"Dash-Board"}>
@@ -162,14 +151,14 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
       },
     },
     {
-      label: "Update Info",
+      label: "Contest",
       icon: (
-        <Tooltip title={"Update Info"}>
-          <InfoIcon />
+        <Tooltip title={"Contest"}>
+          <GamepadIcon />
         </Tooltip>
       ),
       onClick: () => {
-        router.push("/dashboard/updateProfile");
+        router.push("/dashboard/contest");
       },
     },
     {
@@ -181,6 +170,17 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
       ),
       onClick: () => {
         router.push("/dashboard/leaderboard");
+      },
+    },
+    {
+      label: "Update Info",
+      icon: (
+        <Tooltip title={"Update Info"}>
+          <InfoIcon />
+        </Tooltip>
+      ),
+      onClick: () => {
+        router.push("/dashboard/updateProfile");
       },
     },
     {
