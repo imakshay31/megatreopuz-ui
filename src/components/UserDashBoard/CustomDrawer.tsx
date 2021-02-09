@@ -22,7 +22,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 // import InboxIcon from "@material-ui/icons/MoveToInbox";
 // import MailIcon from "@material-ui/icons/Mail";
-
+import ViewListIcon from "@material-ui/icons/ViewList";
 import ThemeToggleButton from "../theme/modeToggle";
 import ImportantDevicesIcon from "@material-ui/icons/ImportantDevices";
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -142,7 +142,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
     {
       label: "Dashboard",
       icon: (
-        <Tooltip title={"Dash-Board"}>
+        <Tooltip title={"Dashboard"}>
           <DashboardIcon />
         </Tooltip>
       ),
@@ -162,7 +162,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
       },
     },
     {
-      label: "Leader-Board",
+      label: "Leader Board",
       icon: (
         <Tooltip title={"Leader Board"}>
           <ImportantDevicesIcon />
@@ -170,6 +170,17 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
       ),
       onClick: () => {
         router.push("/dashboard/leaderboard");
+      },
+    },
+    {
+      label: "Instructions",
+      icon: (
+        <Tooltip title={"Instructions"}>
+          <ViewListIcon />
+        </Tooltip>
+      ),
+      onClick: () => {
+        router.push("/dashboard/instructions");
       },
     },
     {
@@ -186,7 +197,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
     {
       label: "Log Out",
       icon: (
-        <Tooltip title={"Log-out"}>
+        <Tooltip title={"Log out"}>
           <ExitToAppIcon />
         </Tooltip>
       ),

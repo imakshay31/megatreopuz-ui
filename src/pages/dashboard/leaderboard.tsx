@@ -121,7 +121,7 @@ const LeaderBoard: NextPage<ProtectedPageProps> = ({ viewer }) => {
       <CustomDrawer
         name={viewer.name}
         username={viewer.userName}
-        page={"Leader-Board"}
+        page={"Leader Board"}
       />
       {Boolean(error) ? (
         <ErrorComponent error={error as any} />
