@@ -261,7 +261,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
         page={"Contest"}
       />
       <Toolbar />
-      {Boolean(data) || isLoading ? (
+      {Boolean(false) || isLoading ? (
         <Grid
           container
           justify="center"
