@@ -277,21 +277,31 @@ const Profile: NextPage<ProtectedPageProps> = ({
                     />
                   )}
                 </Field>
-                {/* <Field name="userName" validate={validateUsername}>
+                <Field name="userName" validate={validateUsername}>
                   {({
                     field,
                     meta,
                   }: FieldProps<typeof initialValues["userName"]>) => (
-                    <Username
+                    // <Username
+                    //   fullWidth
+                    //   error={!!(meta.touched && meta.error)}
+                    //   helperText={meta.touched && meta.error}
+                    //   state={usernameState}
+                    //   disabled
+                    //   {...field}
+                    // />
+                    <TextField
                       fullWidth
-                      error={!!(meta.touched && meta.error)}
-                      helperText={meta.touched && meta.error}
-                      state={usernameState}
+                      id="username-input"
+                      label="Username"
+                      required
                       disabled
                       {...field}
+                      error={!!(meta.touched && meta.error)}
+                      helperText={meta.touched ? meta.error : ""}
                     />
                   )}
-                </Field> */}
+                </Field>
                 <Field name="year">
                   {({
                     field,
@@ -333,7 +343,7 @@ const Profile: NextPage<ProtectedPageProps> = ({
                     <TextField
                       fullWidth
                       id="college-input"
-                      label="Colllege"
+                      label="College"
                       required
                       {...field}
                       error={!!(meta.touched && meta.error)}

@@ -135,7 +135,7 @@ const LeaderBoard: NextPage<ProtectedPageProps> = ({ viewer }) => {
             <TableContainer component={Paper}>
               <Table aria-label="caption table">
                 <caption>
-                  Need to solve at least 1 question to have a place in leader
+                  Need to solve at least 1 question to make a place on leader
                   board
                 </caption>
                 <TableHead>

@@ -46,19 +46,21 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
   const classes = useStyles();
 
   const instructions = [
-    "1. Megatreopuz '21 will be live from 13th February 2020 to 19th February 2020.",
+    "1. Megatreopuz '21 will be live from 13th February 2020 at 6:00 pm till 19th February 2020.",
     "2. A participant will receive successive questions. He/she will keep receiving questions until the cryptic hunt ends.",
-    "3. If a person is able to solve the most number of questions in the least amount of time, he/she will be declared as the winners.",
+    "3. The participant who solves the most number of questions in the least amount of time will be declared as the winner.",
     "4. The competition is open to everyone, there are no restrictions whatsoever.",
-    "5. All participants are to answer according to the following instructions:",
-    "6. In any case, the decision of ISTE SC MANIT will be final.",
-    "7. ISTE SC MANIT holds the right to disqualify a contestant if he/she indulges in any unfair practice.",
-    "8. The winners need to be an account holder in an Indian bank to claim his/her cash prize.",
+    "5. All participants are required to answer according to the following instructions:",
+    "6. A participant needs to solve at least 1 question to make a place on the leader board.",
+    "7. You can attempt the question as many times as you can. The total number of attempts will not be counted towards ranking.",
+    "8. In any case, the decision of ISTE SC MANIT will be final.",
+    "9. ISTE SC MANIT holds the right to disqualify a contestant if he/she indulges in any unfair practice.",
+    "10. The winners need to be an account holder in an Indian bank to claim his/her cash prize.",
   ];
   const answerInstructions = [
-    "1. His/Her answers can be case insensitive.",
-    "2. He/She should not leave any space between the words of the answer.",
-    "3. He/She should not special symbols and numbers while answering the questions.",
+    "1. Answers can be case insensitive.",
+    "2. Do not leave any space between the words of the answer.",
+    "3. Do not use special symbols and numbers while answering the questions.",
   ];
   return (
     <div className={classes.root}>
