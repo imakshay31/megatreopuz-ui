@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import { Grid, CssBaseline, Box } from "@material-ui/core";
+import { Grid, CssBaseline, Box, Typography } from "@material-ui/core";
 // import Drawer from "../../components/UserDashBoard/Drawer";
 import CustomCard from "../../components/App/card";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -64,7 +64,11 @@ const useStyles = makeStyles((theme: Theme) =>
     b: { width: "250px", marginLeft: "auto", marginRight: "auto" },
   })
 );
-
+const getTime = (time) => {
+  const days = Math.floor(time / 24);
+  const hours = time % 24;
+  return [days, hours];
+};
 const UserDashboard: NextPage<ProtectedPageProps> = ({
   viewer,
   // refetch,
@@ -83,11 +87,13 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
     return <ErrorComponent />;
   }
 
-  const start = moment();
-  const end = moment([2021, 1, 13]);
-  const timeLeft = end.diff(start, "hours");
-  const days = Math.floor(timeLeft / 24);
-  const hours = timeLeft % 24;
+  const current = moment();
+  const start = moment([2021, 1, 13, 18]);
+  const end = moment([2021, 1, 19, 18]);
+  const timeLeftStart = start.diff(current, "hours");
+  const timeLeftEnd = end.diff(current, "hours");
+  const [daysStart, hoursStart] = getTime(timeLeftStart);
+  const [daysEnd, hoursEnd] = getTime(timeLeftEnd);
 
   return (
     <div className={classes.root}>
@@ -105,6 +111,17 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
       ) : (
         <main className={classes.main}>
           <DashboardImg name={viewer.name} />
+          <Box mb={4}>
+            {hoursStart >= 0 ? (
+              <Typography variant="h5" align="center">
+                Contest will start in {hoursStart} hours !
+              </Typography>
+            ) : (
+              <Typography variant="h5" align="center">
+                Contest is<span style={{ color: "#46f20c" }}> Live !</span>
+              </Typography>
+            )}
+          </Box>
           <Grid container justify="center" spacing={3}>
             <Grid item lg={5} md={6} xs={12}>
               <CustomCard
@@ -150,11 +167,13 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
                 Icon={AccessAlarmsIcon}
                 color={"#E7403B"}
                 heading={"Time Left"}
-                data={`${days}d ${hours}h`}
-                unit={"time"}
-                caption={
-                  "Shows time remaining for contest to be concluded CD is Working"
+                data={
+                  daysEnd >= 0
+                    ? `${daysEnd}d ${hoursEnd}h`
+                    : "Contest has Ended !"
                 }
+                unit={""}
+                caption={"Shows time remaining for Contest to be concluded"}
               />
             </Grid>
           </Grid>

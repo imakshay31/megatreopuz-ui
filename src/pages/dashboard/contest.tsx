@@ -37,6 +37,7 @@ import { AnswerQuestionInput } from "../../__generated__/AnswerQuestionMutation.
 import LoadingScreen from "../../components/App/QueryLoaderScreen";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import moment from "moment";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -196,6 +197,11 @@ const ImageDialog = (props) => {
     </Dialog>
   );
 };
+const getTime = (time) => {
+  const days = Math.floor(time / 24);
+  const hours = time % 24;
+  return [days, hours];
+};
 
 const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
   const [localState, setLocalState] = React.useState("");
@@ -231,7 +237,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
   };
 
   const handleSuccess = () => {
-    setHelperText("Correct Answer, Click on Next to view next question");
+    setHelperText("Correct Answer, Click on Next to view the next question");
     setNext(false);
   };
   const handleError = () => {
@@ -252,6 +258,15 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
       onError: handleError,
     });
   };
+  const current = moment();
+  const start = moment([2021, 1, 13, 12]);
+  const end = moment([2021, 1, 14]);
+  const timeLeftStart = start.diff(current, "hours");
+  const timeLeftEnd = end.diff(current, "hours");
+  const [daysStart, hoursStart] = getTime(timeLeftStart);
+  const [daysEnd, hoursEnd] = getTime(timeLeftEnd);
+  // const contestStart = daysStart === 0 && daysEnd >= 0;
+  // console.log(daysStart, daysEnd, contestStart);
 
   return (
     <div>
@@ -288,8 +303,8 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
                     <Box>
                       <Image
                         layout={"responsive"}
-                        height={120}
-                        width={280}
+                        height={100}
+                        width={260}
                         src={data.getQuestion.question}
                         className={classes.img}
                         onClick={handleDialogOpen}

@@ -15,7 +15,7 @@ export const themeProps: ThemeOptions["props"] = {
 
 export const defaultPrimary = blue[500];
 export const defaultSecondary = orange[500];
-export const defaultMode = "light";
+export const defaultMode = "dark";
 export interface ThemeContext {
   mode: ThemeOptions["palette"]["type"];
   primary: SimplePaletteColorOptions["main"];
