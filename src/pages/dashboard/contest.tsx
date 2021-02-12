@@ -259,14 +259,12 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
     });
   };
   const current = moment();
-  const start = moment([2021, 1, 13, 12]);
-  const end = moment([2021, 1, 14]);
-  const timeLeftStart = start.diff(current, "hours");
-  const timeLeftEnd = end.diff(current, "hours");
-  const [daysStart, hoursStart] = getTime(timeLeftStart);
-  const [daysEnd, hoursEnd] = getTime(timeLeftEnd);
-  // const contestStart = daysStart === 0 && daysEnd >= 0;
-  // console.log(daysStart, daysEnd, contestStart);
+  const start = moment([2021, 1, 13, 18]);
+  const end = moment([2021, 1, 19, 18]);
+  const timeLeftStart = start.diff(current);
+  const timeLeftEnd = end.diff(current);
+  const contestStart = timeLeftStart < 0 && timeLeftEnd >= 0;
+  // console.log(timeLeftStart, timeLeftEnd, contestStart);
 
   return (
     <div>
@@ -276,7 +274,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
         page={"Contest"}
       />
       <Toolbar />
-      {Boolean(false) || isLoading ? (
+      {(Boolean(contestStart) && Boolean(data)) || isLoading ? (
         <Grid
           container
           justify="center"

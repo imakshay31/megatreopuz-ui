@@ -92,6 +92,8 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
   const end = moment([2021, 1, 19, 18]);
   const timeLeftStart = start.diff(current, "hours");
   const timeLeftEnd = end.diff(current, "hours");
+  const minutesStart = start.diff(current, "minutes");
+  const minutesEnd = end.diff(current, "minutes");
   const [daysStart, hoursStart] = getTime(timeLeftStart);
   const [daysEnd, hoursEnd] = getTime(timeLeftEnd);
 
@@ -112,9 +114,12 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
         <main className={classes.main}>
           <DashboardImg name={viewer.name} />
           <Box mb={4}>
-            {hoursStart >= 0 ? (
+            {minutesStart >= 0 ? (
               <Typography variant="h5" align="center">
-                Contest will start in {hoursStart} hours !
+                Contest will start in{" "}
+                {minutesStart > 60
+                  ? `${hoursStart} hours !`
+                  : `${minutesStart} minutes !`}
               </Typography>
             ) : (
               <Typography variant="h5" align="center">
@@ -135,7 +140,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
                 }
                 unit={"position"}
                 caption={
-                  "Shows your rank among total number of participants in Contest"
+                  "Shows your rank among total number of participants in the Contest"
                 }
               />
             </Grid>
@@ -148,7 +153,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
                 data={viewer.totalAttempts.toString()}
                 unit={"attempts"}
                 caption={
-                  "Shows total number of attempts made by you in Contest"
+                  "Shows total number of attempts made by you in the Contest"
                 }
               />
             </Grid>
@@ -168,8 +173,12 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
                 color={"#E7403B"}
                 heading={"Time Left"}
                 data={
-                  daysEnd >= 0
-                    ? `${daysEnd}d ${hoursEnd}h`
+                  minutesEnd >= 0
+                    ? daysEnd > 0
+                      ? `${daysEnd}d ${hoursEnd}h`
+                      : hoursEnd > 0
+                      ? `${hoursEnd} hours`
+                      : `${minutesEnd} minutes`
                     : "Contest has Ended !"
                 }
                 unit={""}
