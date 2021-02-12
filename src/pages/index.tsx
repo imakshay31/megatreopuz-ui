@@ -126,17 +126,17 @@ const VectorImg = () => {
     return (
       <Box>
         <Image
-          src="/mega-quiz.svg"
+          src="/mega-home.svg"
           alt="logo"
           width={window.innerWidth}
-          height={window.innerWidth / 1.57}
+          height={window.innerWidth / 1.42}
         />
       </Box>
     );
   }
   return (
     <Box>
-      <Image src="/mega-quiz.svg" alt="logo" width={600} height={382} />
+      <Image src="/mega-home.svg" alt="logo" width={625} height={441} />
     </Box>
   );
 };

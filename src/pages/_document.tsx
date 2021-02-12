@@ -39,6 +39,10 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <title>Megatreopuz</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
           <link rel="icon" href="/logoDark.png" type="image/x-icon" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
