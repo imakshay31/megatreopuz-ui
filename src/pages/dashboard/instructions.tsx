@@ -63,7 +63,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
   ];
   const answerInstructions = [
     "1. Answers can be case insensitive.",
-    "2. Make sure to use an appropriate single space between 2 words in an answer and no more than that.",
+    "2. Whether you add space between the words or not both will be considered correct.",
     "3. Do not use special symbols and numbers while answering the questions (ex: !/*=#$).",
   ];
   return (
