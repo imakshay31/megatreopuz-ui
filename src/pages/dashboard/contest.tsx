@@ -234,6 +234,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
     setNext(true);
     retry();
     setHelperText("");
+    setLocalState("");
   };
 
   const handleSuccess = () => {

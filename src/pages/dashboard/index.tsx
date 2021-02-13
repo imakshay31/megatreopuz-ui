@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import { Grid, CssBaseline, Box, Typography } from "@material-ui/core";
+import { Grid, CssBaseline, Box, Typography, Card } from "@material-ui/core";
 // import Drawer from "../../components/UserDashBoard/Drawer";
 import CustomCard from "../../components/App/card";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -20,6 +20,7 @@ import {
 import LoadingScreen from "../../components/App/QueryLoaderScreen";
 import ErrorComponent from "../../components/App/ErrorComponent";
 import moment from "moment";
+import Chart from "../../components/chart";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +63,11 @@ const useStyles = makeStyles((theme: Theme) =>
       transform: "translateY(-50%)",
     },
     b: { width: "250px", marginLeft: "auto", marginRight: "auto" },
+    lineChart: {
+      fontFamily: "Nunito",
+      color: "inherit",
+      padding: theme.spacing(1),
+    },
   })
 );
 const getTime = (time) => {
@@ -184,6 +190,19 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
                 unit={""}
                 caption={"Shows time remaining for Contest to be concluded"}
               />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Card elevation={3} className={classes.lineChart}>
+                <Chart
+                  rank={
+                    data.getMyProfileInfo.rank === -1
+                      ? 0
+                      : data.getMyProfileInfo.rank + 1
+                  }
+                  answers={viewer.solvedQuestions}
+                  attempts={viewer.totalAttempts}
+                />
+              </Card>
             </Grid>
           </Grid>
         </main>
