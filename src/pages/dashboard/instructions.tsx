@@ -99,25 +99,40 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
             ))}
           </List>
         </Grid>
-        <Box display="flex" alignItems="center" justifyContent="center">
-          <IconButton
-            href="https://www.facebook.com/megatreopuz/"
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+        >
+          <Box>
+            <IconButton
+              href="https://www.facebook.com/megatreopuz/"
+              target="_blank"
+            >
+              <FacebookIcon fontSize="large" color="inherit" />
+            </IconButton>
+            <IconButton
+              href="https://www.instagram.com/istemanit/"
+              target="_blank"
+            >
+              <InstagramIcon fontSize="large" color="inherit" />
+            </IconButton>
+            <IconButton
+              href="https://www.linkedin.com/company/iste-sc-manit/"
+              target="_blank"
+            >
+              <LinkedInIcon fontSize="large" color="inherit" />
+            </IconButton>
+          </Box>
+          <Link
+            color="inherit"
+            href="https://istemanit.in/"
             target="_blank"
+            style={{ cursor: "pointer" }}
           >
-            <FacebookIcon fontSize="large" color="inherit" />
-          </IconButton>
-          <IconButton
-            href="https://www.instagram.com/istemanit/"
-            target="_blank"
-          >
-            <InstagramIcon fontSize="large" color="inherit" />
-          </IconButton>
-          <IconButton
-            href="https://www.linkedin.com/company/iste-sc-manit/"
-            target="_blank"
-          >
-            <LinkedInIcon fontSize="large" color="inherit" />
-          </IconButton>
+            ISTE SC MANIT
+          </Link>
         </Box>
       </Box>
     </div>
