@@ -34,7 +34,7 @@ import cookie from "js-cookie";
 import { Avatar, Box, Fade, MenuItem, Menu, Tooltip } from "@material-ui/core";
 // import { Hidden} from "@material-ui/core";
 // import { name } from "faker";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { useCustomNotification } from "../App/useNotification";
 
 const drawerWidth = 240;
@@ -232,6 +232,14 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
             {page}
           </Typography>
           <div>
+            <IconButton
+              href="https://www.facebook.com/megatreopuz/"
+              target="_blank"
+            >
+              <Tooltip title={"Hints"}>
+                <HelpOutlineIcon color="inherit" />
+              </Tooltip>
+            </IconButton>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
