@@ -31,7 +31,15 @@ import InfoIcon from "@material-ui/icons/Info";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useRouter } from "next/dist/client/router";
 import cookie from "js-cookie";
-import { Avatar, Box, Fade, MenuItem, Menu, Tooltip } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  Fade,
+  MenuItem,
+  Menu,
+  Tooltip,
+  Button,
+} from "@material-ui/core";
 // import { Hidden} from "@material-ui/core";
 // import { name } from "faker";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
@@ -232,14 +240,12 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username, page }) => {
             {page}
           </Typography>
           <div>
-            <IconButton
+            <Button
               href="https://www.facebook.com/megatreopuz/"
               target="_blank"
             >
-              <Tooltip title={"Hints"}>
-                <HelpOutlineIcon color="inherit" />
-              </Tooltip>
-            </IconButton>
+              HINTS
+            </Button>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
