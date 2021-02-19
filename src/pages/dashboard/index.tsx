@@ -95,7 +95,7 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
 
   const current = moment();
   const start = moment([2021, 1, 13, 18]);
-  const end = moment([2021, 1, 19, 18]);
+  const end = moment([2021, 1, 19, 21]);
   const timeLeftStart = start.diff(current, "hours");
   const timeLeftEnd = end.diff(current, "hours");
   const minutesStart = start.diff(current, "minutes");
@@ -127,9 +127,13 @@ const UserDashboard: NextPage<ProtectedPageProps> = ({
                   ? `${hoursStart} hours !`
                   : `${minutesStart} minutes !`}
               </Typography>
-            ) : (
+            ) : minutesEnd >= 0 ? (
               <Typography variant="h5" align="center">
                 Contest is<span style={{ color: "#46f20c" }}> Live !</span>
+              </Typography>
+            ) : (
+              <Typography variant="h5" align="center">
+                Contest has Ended!
               </Typography>
             )}
           </Box>

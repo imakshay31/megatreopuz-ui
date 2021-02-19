@@ -261,7 +261,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
   };
   const current = moment();
   const start = moment([2021, 1, 13, 18]);
-  const end = moment([2021, 1, 19, 18]);
+  const end = moment([2021, 1, 19, 21]);
   const timeLeftStart = start.diff(current);
   const timeLeftEnd = end.diff(current);
   const contestStart = timeLeftStart < 0 && timeLeftEnd >= 0;
@@ -362,8 +362,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
           <Typography variant="h3" align="center">
             {/* That`&apos;`s All for now. Stay tuned for next questions. we will be
             back soon */}
-            Contest will start soon. Please read the instructions carefully
-            before attempting the questions.
+            The contest has Ended! We will get back to the winners soon.
           </Typography>
         </Box>
       )}
