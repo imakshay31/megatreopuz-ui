@@ -261,7 +261,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
   };
   const current = moment();
   const start = moment([2021, 1, 13, 18]);
-  const end = moment([2021, 1, 19, 21]);
+  const end = moment([2021, 1, 19, 18]);
   const timeLeftStart = start.diff(current);
   const timeLeftEnd = end.diff(current);
   const contestStart = timeLeftStart < 0 && timeLeftEnd >= 0;
@@ -275,7 +275,7 @@ const QuestionComponent: NextPage<ProtectedPageProps> = ({ viewer }) => {
         page={"Contest"}
       />
       <Toolbar />
-      {(Boolean(contestStart) && Boolean(data)) || isLoading ? (
+      {(Boolean(false) && Boolean(data)) || isLoading ? (
         <Grid
           container
           justify="center"
