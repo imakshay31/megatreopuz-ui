@@ -34,4 +34,3 @@ yarn-error.log*
 /.vscode/
 
 # Relay output
-src/__generated__
